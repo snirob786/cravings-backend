@@ -7,6 +7,9 @@ const signJwt = require('../services/signJwt');
 const verifyJwt = require('../services/verifyJwt');
 const bcrypt = require("bcrypt");
 
+exports.DefaultMessageView = async (req, res, next) => {
+    return res.status(200).send("This is cravings backend. This is only accessed by developers and the app.")
+}
 
 exports.DoSignUp = async (req, res, next) => {
     let user = req.body
