@@ -7,23 +7,16 @@ export type TUserName = {
   lastName: string;
 };
 
-export type TGuardian = {
-  fatherName: string;
-  fatherOccupation: string;
-  fatherContactNo: string;
-  motherName: string;
-  motherOccupation: string;
-  motherContactNo: string;
+export type TVehicle = {
+  type: string;
+  numberPlate: string;
+  brand: string;
+  companyName: string;
+  model: string;
+  otherDetails: string;
 };
 
-export type TLocalGuardian = {
-  name: string;
-  occupation: string;
-  contactNo: string;
-  address: string;
-};
-
-export type TStudent = {
+export type TDeliveryMan = {
   id: string;
   user: Types.ObjectId;
   name: TUserName;
@@ -35,19 +28,16 @@ export type TStudent = {
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
   presentAddress: string;
   permanentAddress: string;
-  guardian: TGuardian;
-  localGuardian: TLocalGuardian;
+  vehicle: TVehicle;
   profileImg?: string;
-  admissionSemester: Types.ObjectId;
-  academicDepartment: Types.ObjectId;
-  isDeleted: boolean;
+  status: string;
   createdBy: Types.ObjectId;
 };
 
 //for creating static
 
-export interface StudentModel extends Model<TStudent> {
-  isUserExists(id: string): Promise<TStudent | null>;
+export interface DeliveryManModel extends Model<TDeliveryMan> {
+  isUserExists(id: string): Promise<TDeliveryMan | null>;
 }
 
 // for creating instance

@@ -32,7 +32,7 @@ export type TSuperAdmin = {
   presentAddress: string;
   permanentAddress: string;
   profileImg?: string;
-  isDeleted: boolean;
+  status: string;
 };
 
 export interface SuperAdminModel extends Model<TSuperAdmin> {

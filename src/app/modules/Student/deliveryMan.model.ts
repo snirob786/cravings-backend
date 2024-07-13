@@ -1,11 +1,10 @@
 import { Schema, model } from 'mongoose';
 import {
-  StudentModel,
-  TGuardian,
-  TLocalGuardian,
-  TStudent,
+  DeliveryManModel,
+  TVehicle,
+  TDeliveryMan,
   TUserName,
-} from './student.interface';
+} from './deliveryMan.interface';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -26,55 +25,30 @@ const userNameSchema = new Schema<TUserName>({
   },
 });
 
-const guardianSchema = new Schema<TGuardian>({
-  fatherName: {
+const vehicleSchema = new Schema<TVehicle>({
+  type: {
     type: String,
-    trim: true,
-    required: [true, 'Father Name is required'],
+    required: [true, 'Vehicle type is required'],
   },
-  fatherOccupation: {
+  numberPlate: {
     type: String,
-    trim: true,
-    required: [true, 'Father occupation is required'],
   },
-  fatherContactNo: {
+  brand: {
     type: String,
-    required: [true, 'Father Contact No is required'],
   },
-  motherName: {
+  companyName: {
     type: String,
-    required: [true, 'Mother Name is required'],
+    required: [true, 'Vehicle company name is required'],
   },
-  motherOccupation: {
+  model: {
     type: String,
-    required: [true, 'Mother occupation is required'],
   },
-  motherContactNo: {
+  otherDetails: {
     type: String,
-    required: [true, 'Mother Contact No is required'],
   },
 });
 
-const localGuradianSchema = new Schema<TLocalGuardian>({
-  name: {
-    type: String,
-    required: [true, 'Name is required'],
-  },
-  occupation: {
-    type: String,
-    required: [true, 'Occupation is required'],
-  },
-  contactNo: {
-    type: String,
-    required: [true, 'Contact number is required'],
-  },
-  address: {
-    type: String,
-    required: [true, 'Address is required'],
-  },
-});
-
-const studentSchema = new Schema<TStudent, StudentModel>(
+const deliveryManSchema = new Schema<TDeliveryMan, DeliveryManModel>(
   {
     id: {
       type: String,
@@ -125,18 +99,14 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       type: String,
       required: [true, 'Permanent address is required'],
     },
-    guardian: {
-      type: guardianSchema,
-      required: [true, 'Guardian information is required'],
-    },
-    localGuardian: {
-      type: localGuradianSchema,
+    vehicle: {
+      type: vehicleSchema,
       required: [true, 'Local guardian information is required'],
     },
     profileImg: { type: String },
-    isDeleted: {
-      type: Boolean,
-      default: false,
+    status: {
+      type: String,
+      default: 'in-progress',
     },
     createdBy: {
       type: Schema.Types.ObjectId,
@@ -151,30 +121,39 @@ const studentSchema = new Schema<TStudent, StudentModel>(
 );
 
 //virtual
-studentSchema.virtual('fullName').get(function () {
-  return this?.name?.firstName + this?.name?.middleName + this?.name?.lastName;
+deliveryManSchema.virtual('fullName').get(function () {
+  return (
+    this?.name?.firstName +
+    ' ' +
+    this?.name?.middleName +
+    ' ' +
+    this?.name?.lastName
+  );
 });
 
 // Query Middleware
-studentSchema.pre('find', function (next) {
+deliveryManSchema.pre('find', function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
 
-studentSchema.pre('findOne', function (next) {
+deliveryManSchema.pre('findOne', function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
 
-studentSchema.pre('aggregate', function (next) {
+deliveryManSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
   next();
 });
 
 //creating a custom static method
-studentSchema.statics.isUserExists = async function (id: string) {
-  const existingUser = await Student.findOne({ id });
+deliveryManSchema.statics.isUserExists = async function (id: string) {
+  const existingUser = await DeliveryMan.findOne({ id });
   return existingUser;
 };
 
-export const Student = model<TStudent, StudentModel>('Student', studentSchema);
+export const DeliveryMan = model<TDeliveryMan, DeliveryManModel>(
+  'DeliveryMan',
+  deliveryManSchema,
+);

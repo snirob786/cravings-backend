@@ -4,7 +4,7 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { UserServices } from './user.service';
 
-const createStudent = catchAsync(async (req, res) => {
+const createDeliveryMan = catchAsync(async (req, res) => {
   const { password, student: studentData } = req.body;
 
   const result = await UserServices.createStudentIntoDB(
@@ -103,7 +103,7 @@ const changeStatus = catchAsync(async (req, res) => {
   });
 });
 export const UserControllers = {
-  createStudent,
+  createStudent: createDeliveryMan,
   createFaculty,
   createAdmin,
   createSuperAdmin,

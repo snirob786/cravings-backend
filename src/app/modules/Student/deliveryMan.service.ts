@@ -3,11 +3,11 @@ import mongoose from 'mongoose';
 import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
 import { User } from '../user/user.model';
-import { studentSearchableFields } from './student.constant';
-import { TStudent } from './student.interface';
-import { Student } from './student.model';
+import { deliveryManSearchableFields } from './deliveryMan.constant';
+import { TDeliveryMan } from './deliveryMan.interface';
+import { DeliveryMan } from './deliveryMan.model';
 
-const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
+const getAllDeliveryMansFromDB = async (query: Record<string, unknown>) => {
   /*
   const queryObj = { ...query }; // copying req.query object so that we can mutate the copy object 
    
@@ -108,26 +108,25 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
 
   */
 
-  const studentQuery = new QueryBuilder(
-    Student.find()
-      .populate('user')
-      .populate('admissionSemester')
-      .populate({
-        path: 'academicDepartment',
-        populate: {
-          path: 'academicFaculty',
-        },
-      }),
+  const deliveryManQuery = new QueryBuilder(
+    DeliveryMan.find().populate('user'),
+    // .populate('admissionSemester')
+    // .populate({
+    //   path: 'academicDepartment',
+    //   populate: {
+    //     path: 'academicFaculty',
+    //   },
+    // }),
     query,
   )
-    .search(studentSearchableFields)
+    .search(deliveryManSearchableFields)
     .filter()
     .sort()
     .paginate()
     .fields();
 
-  const meta = await studentQuery.countTotal();
-  const result = await studentQuery.modelQuery;
+  const meta = await deliveryManQuery.countTotal();
+  const result = await deliveryManQuery.modelQuery;
 
   return {
     meta,
@@ -135,23 +134,26 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
   };
 };
 
-const getSingleStudentFromDB = async (id: string) => {
-  const result = await Student.findById(id)
-    .populate('admissionSemester')
-    .populate({
-      path: 'academicDepartment',
-      populate: {
-        path: 'academicFaculty',
-      },
-    });
+const getSingleDeliveryManFromDB = async (id: string) => {
+  const result = await DeliveryMan.findById(id);
+  // .populate('admissionSemester')
+  // .populate({
+  //   path: 'academicDepartment',
+  //   populate: {
+  //     path: 'academicFaculty',
+  //   },
+  // });
   return result;
 };
 
-const updateStudentIntoDB = async (id: string, payload: Partial<TStudent>) => {
-  const { name, guardian, localGuardian, ...remainingStudentData } = payload;
+const updateDeliveryManIntoDB = async (
+  id: string,
+  payload: Partial<TDeliveryMan>,
+) => {
+  const { name, vehicle, ...remainingDeliveryManData } = payload;
 
   const modifiedUpdatedData: Record<string, unknown> = {
-    ...remainingStudentData,
+    ...remainingDeliveryManData,
   };
 
   /*
@@ -171,32 +173,26 @@ const updateStudentIntoDB = async (id: string, payload: Partial<TStudent>) => {
     }
   }
 
-  if (guardian && Object.keys(guardian).length) {
-    for (const [key, value] of Object.entries(guardian)) {
-      modifiedUpdatedData[`guardian.${key}`] = value;
+  if (vehicle && Object.keys(vehicle).length) {
+    for (const [key, value] of Object.entries(vehicle)) {
+      modifiedUpdatedData[`vehicle.${key}`] = value;
     }
   }
 
-  if (localGuardian && Object.keys(localGuardian).length) {
-    for (const [key, value] of Object.entries(localGuardian)) {
-      modifiedUpdatedData[`localGuardian.${key}`] = value;
-    }
-  }
-
-  const result = await Student.findByIdAndUpdate(id, modifiedUpdatedData, {
+  const result = await DeliveryMan.findByIdAndUpdate(id, modifiedUpdatedData, {
     new: true,
     runValidators: true,
   });
   return result;
 };
 
-const deleteStudentFromDB = async (id: string) => {
+const deleteDeliveryFromDB = async (id: string) => {
   const session = await mongoose.startSession();
 
   try {
     session.startTransaction();
 
-    const deletedStudent = await Student.findByIdAndUpdate(
+    const deletedStudent = await DeliveryMan.findByIdAndUpdate(
       id,
       { isDeleted: true },
       { new: true, session },
@@ -231,8 +227,8 @@ const deleteStudentFromDB = async (id: string) => {
 };
 
 export const StudentServices = {
-  getAllStudentsFromDB,
-  getSingleStudentFromDB,
-  updateStudentIntoDB,
-  deleteStudentFromDB,
+  getAllDeliveryMansFromDB,
+  getSingleDeliveryManFromDB,
+  updateDeliveryManIntoDB,
+  deleteDeliveryFromDB,
 };

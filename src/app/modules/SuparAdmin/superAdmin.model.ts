@@ -81,9 +81,9 @@ const superAdminSchema = new Schema<TSuperAdmin, SuperAdminModel>(
       required: [true, 'Permanent address is required'],
     },
     profileImg: { type: String },
-    isDeleted: {
-      type: Boolean,
-      default: false,
+    status: {
+      type: String,
+      default: 'active',
     },
   },
   {

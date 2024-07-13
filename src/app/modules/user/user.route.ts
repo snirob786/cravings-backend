@@ -8,24 +8,24 @@ import { createModeratorValidationSchema } from '../Moderator/moderator.validati
 import { USER_ROLE } from './user.constant';
 import { UserControllers } from './user.controller';
 import { UserValidation } from './user.validation';
-import { createStudentValidationSchema } from '../Student/student.validation';
+import { createDeliveryManValidationSchema } from '../Student/deliveryMan.validation';
 
 const router = express.Router();
 
 router.post(
-  '/create-student',
+  '/create-delivery-man',
   // auth(USER_ROLE.admin),
   // upload.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = JSON.parse(req.body.data);
     next();
   },
-  validateRequest(createStudentValidationSchema),
+  validateRequest(createDeliveryManValidationSchema),
   UserControllers.createStudent,
 );
 
 router.post(
-  '/create-mentor',
+  '/create-moderator',
   auth(USER_ROLE.superAdmin, USER_ROLE.admin),
   // upload.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
@@ -50,7 +50,7 @@ router.post(
 router.post(
   '/create-super-admin',
   // upload.single('file'),
-  auth(USER_ROLE.superAdmin),
+  // auth(USER_ROLE.superAdmin),
   (req: Request, res: Response, next: NextFunction) => {
     // req.body = JSON.parse(req.body);
     next();
@@ -61,14 +61,20 @@ router.post(
 
 router.post(
   '/change-status/:id',
-  auth('admin', 'superAdmin'),
+  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
   validateRequest(UserValidation.changeStatusValidationSchema),
   UserControllers.changeStatus,
 );
 
 router.get(
   '/me',
-  auth('student', 'mentor', 'admin', 'superAdmin'),
+  auth(
+    USER_ROLE.deliveryMan,
+    USER_ROLE.user,
+    USER_ROLE.admin,
+    USER_ROLE.superAdmin,
+    USER_ROLE.moderator,
+  ),
   UserControllers.getMe,
 );
 

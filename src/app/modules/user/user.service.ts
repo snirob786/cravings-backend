@@ -9,8 +9,8 @@ import { TAdmin } from '../Admin/admin.interface';
 import { Admin } from '../Admin/admin.model';
 import { TModerator } from '../Moderator/moderator.interface';
 import { Moderator } from '../Moderator/moderator.model';
-import { TStudent } from '../Student/student.interface';
-import { Student } from '../Student/student.model';
+import { TDeliveryMan } from '../Student/deliveryMan.interface';
+import { DeliveryMan } from '../Student/deliveryMan.model';
 import { TUser } from './user.interface';
 import { User } from './user.model';
 // import {
@@ -24,7 +24,7 @@ import { TSuperAdmin } from '../SuparAdmin/superAdmin.interface';
 const createStudentIntoDB = async (
   file: any,
   password: string,
-  payload: TStudent,
+  payload: TDeliveryMan,
 ) => {
   // create a user object
   const userData: Partial<TUser> = {};
@@ -33,7 +33,7 @@ const createStudentIntoDB = async (
   userData.password = password || (config.default_password as string);
 
   //set student role
-  userData.role = 'student';
+  userData.role = 'deliveryMan';
   // set student email
   userData.email = payload.email;
 
@@ -63,7 +63,7 @@ const createStudentIntoDB = async (
 
     // create a student (transaction-2)
 
-    const newStudent = await Student.create([payload], { session });
+    const newStudent = await DeliveryMan.create([payload], { session });
 
     if (!newStudent.length) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create student');
@@ -92,7 +92,7 @@ const createFacultyIntoDB = async (
   userData.password = password || (config.default_password as string);
 
   //set faculty role
-  userData.role = 'mentor';
+  userData.role = 'moderator';
   //set faculty email
   userData.email = payload.email;
 
@@ -207,6 +207,7 @@ const createSuperAdminIntoDB = async (
 
   //set student role
   userData.role = 'superAdmin';
+  userData.status = 'active';
   //set admin email
   userData.email = payload.email;
   const session = await mongoose.startSession();
@@ -258,7 +259,7 @@ const getMe = async (userId: string, role: string) => {
 
   let result = null;
   if (role === 'student') {
-    result = await Student.findOne({ id: userId }).populate('user');
+    result = await DeliveryMan.findOne({ id: userId }).populate('user');
   }
   if (role === 'admin') {
     result = await Admin.findOne({ id: userId }).populate('user');
