@@ -1,14 +1,12 @@
 import { Router } from 'express';
 import { AdminRoutes } from '../modules/Admin/admin.route';
 import { AuthRoutes } from '../modules/Auth/auth.route';
-import { CourseRoutes } from '../modules/Course/course.route';
 import { ModeratorRoutes } from '../modules/Moderator/moderator.route';
-import { batchRoutes } from '../modules/Batch/batch.route';
-import { DeliveryManRoutes } from '../modules/Student/deliveryMan.route';
+import { restaurantRoutes } from '../modules/Restaurant/restaurant.route';
+import { DeliveryManRoutes } from '../modules/DeliveryMan/deliveryMan.route';
 import { UserRoutes } from '../modules/user/user.route';
 import { HomeRoutes } from '../modules/Home/home.route';
 import { SuperAdminRoutes } from '../modules/SuparAdmin/superAdmin.route';
-import { ModulesRoutes } from '../modules/Modules/module.route';
 
 const router = Router();
 
@@ -38,20 +36,12 @@ const moduleRoutes = [
     route: SuperAdminRoutes,
   },
   {
-    path: '/courses',
-    route: CourseRoutes,
-  },
-  {
-    path: '/batches',
-    route: batchRoutes,
+    path: '/restaurants',
+    route: restaurantRoutes,
   },
   {
     path: '/auth',
     route: AuthRoutes,
-  },
-  {
-    path: '/modules',
-    route: ModulesRoutes,
   },
 ];
 

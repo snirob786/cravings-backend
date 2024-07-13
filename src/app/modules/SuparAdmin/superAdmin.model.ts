@@ -90,6 +90,7 @@ const superAdminSchema = new Schema<TSuperAdmin, SuperAdminModel>(
     toJSON: {
       virtuals: true,
     },
+    timestamps: true,
   },
 );
 

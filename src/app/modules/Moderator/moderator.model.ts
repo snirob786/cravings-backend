@@ -89,6 +89,7 @@ const moderatorSchema = new Schema<TModerator, ModeratorModel>(
     toJSON: {
       virtuals: true,
     },
+    timestamps: true,
   },
 );
 

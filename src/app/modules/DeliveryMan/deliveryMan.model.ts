@@ -117,6 +117,7 @@ const deliveryManSchema = new Schema<TDeliveryMan, DeliveryManModel>(
     toJSON: {
       virtuals: true,
     },
+    timestamps: true,
   },
 );
 

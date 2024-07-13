@@ -81,6 +81,8 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
     toJSON: {
       virtuals: true,
     },
+
+    timestamps: true,
   },
 );
 

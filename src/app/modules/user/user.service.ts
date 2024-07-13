@@ -9,8 +9,8 @@ import { TAdmin } from '../Admin/admin.interface';
 import { Admin } from '../Admin/admin.model';
 import { TModerator } from '../Moderator/moderator.interface';
 import { Moderator } from '../Moderator/moderator.model';
-import { TDeliveryMan } from '../Student/deliveryMan.interface';
-import { DeliveryMan } from '../Student/deliveryMan.model';
+import { TDeliveryMan } from '../DeliveryMan/deliveryMan.interface';
+import { DeliveryMan } from '../DeliveryMan/deliveryMan.model';
 import { TUser } from './user.interface';
 import { User } from './user.model';
 // import {

@@ -8,7 +8,7 @@ import { createModeratorValidationSchema } from '../Moderator/moderator.validati
 import { USER_ROLE } from './user.constant';
 import { UserControllers } from './user.controller';
 import { UserValidation } from './user.validation';
-import { createDeliveryManValidationSchema } from '../Student/deliveryMan.validation';
+import { createDeliveryManValidationSchema } from '../DeliveryMan/deliveryMan.validation';
 
 const router = express.Router();
 

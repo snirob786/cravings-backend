@@ -1,22 +1,24 @@
 import { z } from 'zod';
-import { BatchRegistrationStatus } from './batch.constant';
+import { RestaurantRegistrationStatus } from './restaurant.constant';
 
-const createBatchValidationSchema = z.object({
+const createRestaurantValidationSchema = z.object({
   body: z.object({
     title: z.string(),
     course: z.string(),
-    status: z.enum([...(BatchRegistrationStatus as [string, ...string[]])]),
+    status: z.enum([
+      ...(RestaurantRegistrationStatus as [string, ...string[]]),
+    ]),
     startDate: z.string().datetime(),
     endDate: z.string().datetime(),
   }),
 });
 
-const upadateBatchSchema = z.object({
+const upadateResturantSchema = z.object({
   body: z.object({
     title: z.string().optional(),
     course: z.string().optional(),
     status: z
-      .enum([...(BatchRegistrationStatus as [string, ...string[]])])
+      .enum([...(RestaurantRegistrationStatus as [string, ...string[]])])
       .optional(),
     startDate: z.string().datetime().optional(),
     endDate: z.string().datetime().optional(),
@@ -24,7 +26,7 @@ const upadateBatchSchema = z.object({
   }),
 });
 
-export const BatchValidations = {
-  createBatchValidationSchema,
-  upadateBatchSchema,
+export const RestaurantValidations = {
+  createRestaurantValidationSchema,
+  upadateResturantSchema,
 };

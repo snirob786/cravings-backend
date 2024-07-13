@@ -3,10 +3,11 @@ import httpStatus from 'http-status';
 import mongoose from 'mongoose';
 import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
-import { TClass } from './class.interface';
-import { Class } from './class.model';
+import { RestaurantStatus } from './restaurant.constant';
+import { TRestaurant } from './restaurant.interface';
+import { Restaurant } from './restaurant.model';
 
-const createClassIntoDB = async (payload: TClass) => {
+const createRestaurantIntoDB = async (payload: TRestaurant) => {
   /**
    * Step1: Check if there any registered semester that is already 'UPCOMING'|'ONGOING'
    * Step2: Check if the semester is exist
@@ -14,13 +15,27 @@ const createClassIntoDB = async (payload: TClass) => {
    * Step4: Create the semester registration
    */
 
-  const result = await Class.create(payload);
+  //check if there any registered semester that is already 'UPCOMING'|'ONGOING'
+  // const isThereAnyUpcomingOrOngoingBatch = await Restaurant.findOne({
+  //   $or: [
+  //     { status: RestaurantStatus.active },
+  //     { status: RestaurantStatus.ONGOING },
+  //   ],
+  // });
+
+  // if (isThereAnyUpcomingOrOngoingBatch) {
+  //   throw new AppError(
+  //     httpStatus.BAD_REQUEST,
+  //     `There is aready an batch named ${isThereAnyUpcomingOrOngoingBatch.status} registered!`,
+  //   );
+  // }
+  const result = await Restaurant.create(payload);
   return result;
 };
 
-const getAllClassesFromDB = async (query: Record<string, unknown>) => {
-  const classQuery = new QueryBuilder(
-    Class.find().populate('module').populate('createdBy'),
+const getAllRestaurantesFromDB = async (query: Record<string, unknown>) => {
+  const batchQuery = new QueryBuilder(
+    Restaurant.find().populate('course'),
     query,
   )
     .filter()
@@ -28,17 +43,20 @@ const getAllClassesFromDB = async (query: Record<string, unknown>) => {
     .paginate()
     .fields();
 
-  const result = await classQuery.modelQuery;
+  const result = await batchQuery.modelQuery;
   return result;
 };
 
-const getSingleClassFromDB = async (id: string) => {
-  const result = await Class.findById(id);
+const getSingleRestaurantFromDB = async (id: string) => {
+  const result = await Restaurant.findById(id);
 
   return result;
 };
 
-const updateClassIntoDB = async (id: string, payload: Partial<TClass>) => {
+const updateRestaurantIntoDB = async (
+  id: string,
+  payload: Partial<TRestaurant>,
+) => {
   /**
    * Step1: Check if the semester is exist
    * Step2: Check if the requested registered semester is exists
@@ -53,13 +71,13 @@ const updateClassIntoDB = async (id: string, payload: Partial<TClass>) => {
 
   // check if the requested registered semester is exists
   // check if the semester is already registered!
-  const isClassExists = await Class.findById(id);
+  const isRestaurantExists = await Restaurant.findById(id);
 
-  if (!isClassExists) {
-    throw new AppError(httpStatus.NOT_FOUND, 'This class is not found !');
+  if (!isRestaurantExists) {
+    throw new AppError(httpStatus.NOT_FOUND, 'This restaurant is not found !');
   }
 
-  const result = await Class.findByIdAndUpdate(id, payload, {
+  const result = await Restaurant.findByIdAndUpdate(id, payload, {
     new: true,
     runValidators: true,
   });
@@ -67,7 +85,7 @@ const updateClassIntoDB = async (id: string, payload: Partial<TClass>) => {
   return result;
 };
 
-const deleteClassFromDB = async (id: string) => {
+const deleteRestaurantFromDB = async (id: string) => {
   /** 
   * Step1: Delete associated offered courses.
   * Step2: Delete semester registraton when the status is 
@@ -75,9 +93,9 @@ const deleteClassFromDB = async (id: string) => {
   **/
 
   // checking if the semester registration is exist
-  const isClassExists = await Class.findById(id);
+  const isRestaurantExists = await Restaurant.findById(id);
 
-  if (!isClassExists) {
+  if (!isRestaurantExists) {
     throw new AppError(httpStatus.NOT_FOUND, 'This batch is not found !');
   }
 
@@ -87,15 +105,20 @@ const deleteClassFromDB = async (id: string) => {
 
   try {
     session.startTransaction();
-    const deletedBatch = await Class.findByIdAndDelete(id, {
-      session,
-      new: true,
-    });
 
-    if (!deletedBatch) {
+    const deletedRestaurant = await Restaurant.findByIdAndUpdate(
+      id,
+      { status: 'deleted' },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+
+    if (!deletedRestaurant) {
       throw new AppError(
         httpStatus.BAD_REQUEST,
-        'Failed to delete semester registration !',
+        'Failed to delete restaurant registration !',
       );
     }
 
@@ -110,10 +133,10 @@ const deleteClassFromDB = async (id: string) => {
   }
 };
 
-export const ClassService = {
-  createClassIntoDB,
-  getAllClassesFromDB,
-  getSingleClassFromDB,
-  updateClassIntoDB,
-  deleteClassFromDB,
+export const RestaurantService = {
+  createRestaurantIntoDB,
+  getAllRestaurantesFromDB,
+  getSingleRestaurantFromDB,
+  updateRestaurantIntoDB,
+  deleteRestaurantFromDB,
 };
