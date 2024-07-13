@@ -5,7 +5,12 @@ import sendResponse from '../../utils/sendResponse';
 import { RestaurantService } from './restaurant.service';
 
 const createRestaurant = catchAsync(async (req: Request, res: Response) => {
-  const result = await RestaurantService.createRestaurantIntoDB(req.body);
+  console.log('restaurant req in controller: ', req.user._id);
+  let newPayload = {
+    ...req.body,
+    createdBy: req.user._id,
+  };
+  const result = await RestaurantService.createRestaurantIntoDB(newPayload);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

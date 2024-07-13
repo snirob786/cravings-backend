@@ -15,7 +15,7 @@ const createUserNameValidationSchema = z.object({
 export const createModeratorValidationSchema = z.object({
   body: z.object({
     password: z.string().max(20),
-    faculty: z.object({
+    moderator: z.object({
       designation: z.string(),
       name: createUserNameValidationSchema,
       gender: z.enum([...Gender] as [string, ...string[]]),
@@ -40,7 +40,7 @@ const updateUserNameValidationSchema = z.object({
 
 export const updateModeratorValidationSchema = z.object({
   body: z.object({
-    mentor: z.object({
+    moderator: z.object({
       designation: z.string().optional(),
       name: updateUserNameValidationSchema,
       gender: z.enum([...Gender] as [string, ...string[]]).optional(),

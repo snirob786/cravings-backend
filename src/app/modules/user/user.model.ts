@@ -2,7 +2,7 @@
 import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
 import config from '../../config';
-import { UserStatus } from './user.constant';
+import { USER_ROLE, UserStatus } from './user.constant';
 import { TUser, UserModel } from './user.interface';
 const userSchema = new Schema<TUser, UserModel>(
   {
@@ -25,12 +25,34 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     role: {
       type: String,
-      enum: ['student', 'mentor', 'admin', 'superAdmin'],
+      enum: [
+        USER_ROLE.admin,
+        USER_ROLE.deliveryMan,
+        USER_ROLE.moderator,
+        USER_ROLE.superAdmin,
+        USER_ROLE.user,
+      ],
+    },
+    superAdmin: {
+      type: Schema.Types.ObjectId,
+      ref: 'SuperAdmin',
+    },
+    admin: {
+      type: Schema.Types.ObjectId,
+      ref: 'Admin',
+    },
+    moderator: {
+      type: Schema.Types.ObjectId,
+      ref: 'Moderator',
+    },
+    deliveryMan: {
+      type: Schema.Types.ObjectId,
+      ref: 'DeliveryMan',
     },
     status: {
       type: String,
       enum: UserStatus,
-      default: 'in-progress',
+      default: 'active',
     },
     isDeleted: {
       type: Boolean,

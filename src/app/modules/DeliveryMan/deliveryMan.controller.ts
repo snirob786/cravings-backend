@@ -2,52 +2,55 @@ import { RequestHandler } from 'express';
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import { StudentServices } from './deliveryMan.service';
+import { DeliveryManServices } from './deliveryMan.service';
 
 const getSingleDeliveryMan = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await StudentServices.getSingleStudentFromDB(id);
+  const result = await DeliveryManServices.getSingleDeliveryManFromDB(id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student is retrieved succesfully',
+    message: 'Delivery Man is retrieved succesfully',
     data: result,
   });
 });
 
 const getAllDeliveryMans: RequestHandler = catchAsync(async (req, res) => {
-  const result = await StudentServices.getAllStudentsFromDB(req.query);
+  const result = await DeliveryManServices.getAllDeliveryMansFromDB(req.query);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student are retrieved succesfully',
+    message: 'Delivery Man are retrieved succesfully',
     data: result,
   });
 });
 
 const updateDeliveryMan = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const { student } = req.body;
-  const result = await StudentServices.updateStudentIntoDB(id, student);
+  const { deliveryMan } = req.body;
+  const result = await DeliveryManServices.updateDeliveryManIntoDB(
+    id,
+    deliveryMan,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student is updated succesfully',
+    message: 'Delivery Man is updated succesfully',
     data: result,
   });
 });
 
 const deleteDeliveryMan = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await StudentServices.deleteStudentFromDB(id);
+  const result = await DeliveryManServices.deleteDeliveryFromDB(id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student is deleted succesfully',
+    message: 'Delivery Man is deleted succesfully',
     data: result,
   });
 });

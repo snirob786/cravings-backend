@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { USER_ROLE } from './user.constant';
 
 export interface TUser {
@@ -8,6 +8,10 @@ export interface TUser {
   needsPasswordChange: boolean;
   passwordChangedAt?: Date;
   role: 'admin' | 'deliveryMan' | 'moderator' | 'superAdmin' | 'user';
+  superAdmin: Types.ObjectId;
+  admin: Types.ObjectId;
+  moderator: Types.ObjectId;
+  deliveryMan: Types.ObjectId;
   status: 'in-progress' | 'blocked' | 'active';
   isDeleted: boolean;
 }

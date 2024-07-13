@@ -5,35 +5,35 @@ import sendResponse from '../../utils/sendResponse';
 import { UserServices } from './user.service';
 
 const createDeliveryMan = catchAsync(async (req, res) => {
-  const { password, student: studentData } = req.body;
+  const { password, deliveryMan: deliveryManData } = req.body;
 
-  const result = await UserServices.createStudentIntoDB(
+  const result = await UserServices.createDeliveryManIntoDB(
     req.file,
     password,
-    studentData,
+    deliveryManData,
   );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student is created succesfully',
+    message: 'Delivery Man is created succesfully',
     data: result,
   });
 });
 
-const createFaculty = catchAsync(async (req, res) => {
-  const { password, faculty: facultyData } = req.body;
+const createModerator = catchAsync(async (req, res) => {
+  const { password, moderator: moderatorData } = req.body;
 
-  const result = await UserServices.createFacultyIntoDB(
+  const result = await UserServices.createModeratorIntoDB(
     req.file,
     password,
-    facultyData,
+    moderatorData,
   );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Faculty is created succesfully',
+    message: 'Moderator is created succesfully',
     data: result,
   });
 });
@@ -66,7 +66,7 @@ const createSuperAdmin = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Admin is created succesfully',
+    message: 'Super Admin is created succesfully',
     data: result,
   });
 });
@@ -103,8 +103,8 @@ const changeStatus = catchAsync(async (req, res) => {
   });
 });
 export const UserControllers = {
-  createStudent: createDeliveryMan,
-  createFaculty,
+  createDeliveryMan,
+  createModerator,
   createAdmin,
   createSuperAdmin,
   getMe,

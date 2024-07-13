@@ -21,7 +21,7 @@ router.post(
     next();
   },
   validateRequest(createDeliveryManValidationSchema),
-  UserControllers.createStudent,
+  UserControllers.createDeliveryMan,
 );
 
 router.post(
@@ -33,7 +33,7 @@ router.post(
     next();
   },
   validateRequest(createModeratorValidationSchema),
-  UserControllers.createFaculty,
+  UserControllers.createModerator,
 );
 
 router.post(

@@ -20,8 +20,9 @@ import { User } from './user.model';
 // } from './user.utils';
 import { SuperAdmin } from '../SuparAdmin/superAdmin.model';
 import { TSuperAdmin } from '../SuparAdmin/superAdmin.interface';
+import { USER_ROLE } from './user.constant';
 
-const createStudentIntoDB = async (
+const createDeliveryManIntoDB = async (
   file: any,
   password: string,
   payload: TDeliveryMan,
@@ -33,7 +34,7 @@ const createStudentIntoDB = async (
   userData.password = password || (config.default_password as string);
 
   //set student role
-  userData.role = 'deliveryMan';
+  userData.role = USER_ROLE.deliveryMan;
   // set student email
   userData.email = payload.email;
 
@@ -63,16 +64,25 @@ const createStudentIntoDB = async (
 
     // create a student (transaction-2)
 
-    const newStudent = await DeliveryMan.create([payload], { session });
+    const newDeliveryMan = await DeliveryMan.create([payload], { session });
 
-    if (!newStudent.length) {
-      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create student');
+    if (!newDeliveryMan.length) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        'Failed to create delivery man',
+      );
     }
+
+    const newUpdateUser = await User.updateOne(
+      { _id: newUser[0]?._id },
+      { admin: newDeliveryMan[0]._id },
+      { session },
+    );
 
     await session.commitTransaction();
     await session.endSession();
 
-    return newStudent;
+    return newDeliveryMan;
   } catch (err: any) {
     await session.abortTransaction();
     await session.endSession();
@@ -80,7 +90,7 @@ const createStudentIntoDB = async (
   }
 };
 
-const createFacultyIntoDB = async (
+const createModeratorIntoDB = async (
   file: any,
   password: string,
   payload: TModerator,
@@ -92,7 +102,7 @@ const createFacultyIntoDB = async (
   userData.password = password || (config.default_password as string);
 
   //set faculty role
-  userData.role = 'moderator';
+  userData.role = USER_ROLE.moderator;
   //set faculty email
   userData.email = payload.email;
 
@@ -121,16 +131,21 @@ const createFacultyIntoDB = async (
     // payload.profileImg = secure_url;
     // create a faculty (transaction-2)
 
-    const newFaculty = await Moderator.create([payload], { session });
+    const newModerator = await Moderator.create([payload], { session });
 
-    if (!newFaculty.length) {
-      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create faculty');
+    if (!newModerator.length) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create modeartor');
     }
+    const newUpdateUser = await User.updateOne(
+      { _id: newUser[0]?._id },
+      { admin: newModerator[0]._id },
+      { session },
+    );
 
     await session.commitTransaction();
     await session.endSession();
 
-    return newFaculty;
+    return newModerator;
   } catch (err: any) {
     await session.abortTransaction();
     await session.endSession();
@@ -150,7 +165,7 @@ const createAdminIntoDB = async (
   userData.password = password || (config.default_password as string);
 
   //set student role
-  userData.role = 'admin';
+  userData.role = USER_ROLE.admin;
   //set admin email
   userData.email = payload.email;
   const session = await mongoose.startSession();
@@ -183,6 +198,11 @@ const createAdminIntoDB = async (
     if (!newAdmin.length) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create admin');
     }
+    const newUpdateUser = await User.updateOne(
+      { _id: newUser[0]?._id },
+      { admin: newAdmin[0]._id },
+      { session },
+    );
 
     await session.commitTransaction();
     await session.endSession();
@@ -206,7 +226,7 @@ const createSuperAdminIntoDB = async (
   userData.password = password || (config.default_password as string);
 
   //set student role
-  userData.role = 'superAdmin';
+  userData.role = USER_ROLE.superAdmin;
   userData.status = 'active';
   //set admin email
   userData.email = payload.email;
@@ -221,7 +241,7 @@ const createSuperAdminIntoDB = async (
     // const { secure_url } = await sendImageToCloudinary(imageName, path);
 
     // create a user (transaction-1)
-    const newUser = await User.create([userData], { session });
+    const newUser: any = await User.create([userData], { session });
 
     //create a admin
     if (!newUser.length) {
@@ -233,7 +253,7 @@ const createSuperAdminIntoDB = async (
     // payload.profileImg = secure_url;
 
     // create a admin (transaction-2)
-    const newSuperAdmin = await SuperAdmin.create([payload], { session });
+    const newSuperAdmin: any = await SuperAdmin.create([payload], { session });
 
     if (!newSuperAdmin.length) {
       throw new AppError(
@@ -241,6 +261,11 @@ const createSuperAdminIntoDB = async (
         'Failed to create super admin',
       );
     }
+    const newUpdateUser = await User.updateOne(
+      { _id: newUser[0]?._id },
+      { superAdmin: newSuperAdmin[0]._id },
+      { session },
+    );
 
     await session.commitTransaction();
     await session.endSession();
@@ -258,7 +283,7 @@ const getMe = async (userId: string, role: string) => {
   // const { userId, role } = decoded;
 
   let result = null;
-  if (role === 'student') {
+  if (role === USER_ROLE.deliveryMan) {
     result = await DeliveryMan.findOne({ id: userId }).populate('user');
   }
   if (role === 'admin') {
@@ -284,8 +309,8 @@ const changeStatus = async (id: string, payload: { status: string }) => {
 };
 
 export const UserServices = {
-  createStudentIntoDB,
-  createFacultyIntoDB,
+  createDeliveryManIntoDB,
+  createModeratorIntoDB,
   createAdminIntoDB,
   createSuperAdminIntoDB,
   getMe,

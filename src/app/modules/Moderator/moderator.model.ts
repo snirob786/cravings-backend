@@ -78,7 +78,7 @@ const moderatorSchema = new Schema<TModerator, ModeratorModel>(
     status: {
       type: String,
       enum: UserStatus,
-      default: 'in-progress',
+      default: 'active',
     },
     createdBy: {
       type: Schema.Types.ObjectId,

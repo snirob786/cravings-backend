@@ -54,9 +54,9 @@ const updateDeliveryManValidationSchema = z.object({
   otherDetails: z.string().optional(),
 });
 
-export const updateStudentValidationSchema = z.object({
+export const updateDelivryManValidationSchema = z.object({
   body: z.object({
-    student: z.object({
+    deliveryMan: z.object({
       name: updateUserNameValidationSchema,
       gender: z.enum(['male', 'female', 'other']).optional(),
       dateOfBirth: z.string().optional(),
@@ -74,7 +74,7 @@ export const updateStudentValidationSchema = z.object({
   }),
 });
 
-export const studentValidations = {
-  createStudentValidationSchema: createDeliveryManValidationSchema,
-  updateStudentValidationSchema,
+export const deliveryManValidations = {
+  createDeliveryManValidationSchema,
+  updateDelivryManValidationSchema,
 };

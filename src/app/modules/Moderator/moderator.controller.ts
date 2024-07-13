@@ -10,7 +10,7 @@ const getSingleModerator = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Mentor is retrieved succesfully',
+    message: 'Moderator is retrieved succesfully',
     data: result,
   });
 });
@@ -21,20 +21,20 @@ const getAllModerators = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Mentors are retrieved succesfully',
+    message: 'Moderators are retrieved succesfully',
     data: result,
   });
 });
 
 const updateModerator = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const { faculty } = req.body;
-  const result = await ModeratorServices.updateModeratorIntoDB(id, faculty);
+  const { moderator } = req.body;
+  const result = await ModeratorServices.updateModeratorIntoDB(id, moderator);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Mentor is updated succesfully',
+    message: 'Moderator is updated succesfully',
     data: result,
   });
 });
@@ -46,12 +46,12 @@ const deleteModerator = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Mentor is deleted succesfully',
+    message: 'Moderator is deleted succesfully',
     data: result,
   });
 });
 
-export const MentorControllers = {
+export const ModeratorControllers = {
   getAllModerators,
   getSingleModerator,
   updateModerator,

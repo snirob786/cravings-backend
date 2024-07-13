@@ -7,7 +7,8 @@ import { RestaurantStatus } from './restaurant.constant';
 import { TRestaurant } from './restaurant.interface';
 import { Restaurant } from './restaurant.model';
 
-const createRestaurantIntoDB = async (payload: TRestaurant) => {
+const createRestaurantIntoDB = async (payload: any) => {
+  console.log('restaurant create payload: ', payload);
   /**
    * Step1: Check if there any registered semester that is already 'UPCOMING'|'ONGOING'
    * Step2: Check if the semester is exist
@@ -35,7 +36,7 @@ const createRestaurantIntoDB = async (payload: TRestaurant) => {
 
 const getAllRestaurantesFromDB = async (query: Record<string, unknown>) => {
   const batchQuery = new QueryBuilder(
-    Restaurant.find().populate('course'),
+    Restaurant.find().populate('createdBy'),
     query,
   )
     .filter()

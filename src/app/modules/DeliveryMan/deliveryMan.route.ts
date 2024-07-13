@@ -2,7 +2,7 @@ import express from 'express';
 import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { DeliveryManControllers } from './deliveryMan.controller';
-import { updateStudentValidationSchema } from './deliveryMan.validation';
+import { updateDelivryManValidationSchema } from './deliveryMan.validation';
 import { USER_ROLE } from '../user/user.constant';
 
 const router = express.Router();
@@ -14,7 +14,7 @@ router.get('/:id', DeliveryManControllers.getSingleDeliveryMan);
 router.patch(
   '/:id',
   auth(USER_ROLE.admin, USER_ROLE.moderator, USER_ROLE.superAdmin),
-  validateRequest(updateStudentValidationSchema),
+  validateRequest(updateDelivryManValidationSchema),
   DeliveryManControllers.updateDeliveryMan,
 );
 

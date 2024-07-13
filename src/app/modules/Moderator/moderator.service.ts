@@ -9,7 +9,7 @@ import { TModerator } from './moderator.interface';
 import { Moderator } from './moderator.model';
 
 const getAllModeratorsFromDB = async (query: Record<string, unknown>) => {
-  const mentorQuery = new QueryBuilder(
+  const moderatorQuery = new QueryBuilder(
     Moderator.find().populate('academicDepartment'),
     query,
   )
@@ -19,7 +19,7 @@ const getAllModeratorsFromDB = async (query: Record<string, unknown>) => {
     .paginate()
     .fields();
 
-  const result = await mentorQuery.modelQuery;
+  const result = await moderatorQuery.modelQuery;
   return result;
 };
 
@@ -33,10 +33,10 @@ const updateModeratorIntoDB = async (
   id: string,
   payload: Partial<TModerator>,
 ) => {
-  const { name, ...remainingMentorData } = payload;
+  const { name, ...remainingModeratorData } = payload;
 
   const modifiedUpdatedData: Record<string, unknown> = {
-    ...remainingMentorData,
+    ...remainingModeratorData,
   };
 
   if (name && Object.keys(name).length) {
@@ -58,18 +58,18 @@ const deleteModeratorFromDB = async (id: string) => {
   try {
     session.startTransaction();
 
-    const deletedFaculty = await Moderator.findByIdAndUpdate(
+    const deletedModerator = await Moderator.findByIdAndUpdate(
       id,
       { isDeleted: true },
       { new: true, session },
     );
 
-    if (!deletedFaculty) {
-      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to delete mentor');
+    if (!deletedModerator) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to delete moderator');
     }
 
     // get user _id from deletedFaculty
-    const userId = deletedFaculty.user;
+    const userId = deletedModerator.user;
 
     const deletedUser = await User.findByIdAndUpdate(
       userId,
@@ -84,7 +84,7 @@ const deleteModeratorFromDB = async (id: string) => {
     await session.commitTransaction();
     await session.endSession();
 
-    return deletedFaculty;
+    return deletedModerator;
   } catch (err: any) {
     await session.abortTransaction();
     await session.endSession();

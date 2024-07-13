@@ -11,7 +11,7 @@ router.get('/', RestaurantController.getAllRestaurants);
 router.get('/:id', RestaurantController.getSingleRestaurant);
 
 router.post(
-  '/create-batch',
+  '/create-restaurant',
   auth(USER_ROLE.admin, USER_ROLE.superAdmin),
   validateRequest(RestaurantValidations.createRestaurantValidationSchema),
   RestaurantController.createRestaurant,

@@ -2,25 +2,25 @@ import express from 'express';
 import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { USER_ROLE } from '../user/user.constant';
-import { MentorControllers } from './moderator.controller';
+import { ModeratorControllers } from './moderator.controller';
 import { updateModeratorValidationSchema } from './moderator.validation';
 
 const router = express.Router();
 
-router.get('/:id', MentorControllers.getSingleModerator);
+router.get('/:id', ModeratorControllers.getSingleModerator);
 
 router.patch(
   '/:id',
   validateRequest(updateModeratorValidationSchema),
-  MentorControllers.updateModerator,
+  ModeratorControllers.updateModerator,
 );
 
-router.delete('/:id', MentorControllers.deleteModerator);
+router.delete('/:id', ModeratorControllers.deleteModerator);
 
 router.get(
   '/',
-  auth(USER_ROLE.admin, USER_ROLE.mentor),
-  MentorControllers.getAllModerators,
+  auth(USER_ROLE.admin, USER_ROLE.moderator),
+  ModeratorControllers.getAllModerators,
 );
 
 export const ModeratorRoutes = router;

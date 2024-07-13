@@ -192,18 +192,21 @@ const deleteDeliveryFromDB = async (id: string) => {
   try {
     session.startTransaction();
 
-    const deletedStudent = await DeliveryMan.findByIdAndUpdate(
+    const deletedDeliveryMan = await DeliveryMan.findByIdAndUpdate(
       id,
       { isDeleted: true },
       { new: true, session },
     );
 
-    if (!deletedStudent) {
-      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to delete student');
+    if (!deletedDeliveryMan) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        'Failed to delete delivery man',
+      );
     }
 
     // get user _id from deletedStudent
-    const userId = deletedStudent.user;
+    const userId = deletedDeliveryMan.user;
 
     const deletedUser = await User.findByIdAndUpdate(
       userId,
@@ -218,15 +221,15 @@ const deleteDeliveryFromDB = async (id: string) => {
     await session.commitTransaction();
     await session.endSession();
 
-    return deletedStudent;
+    return deletedDeliveryMan;
   } catch (err) {
     await session.abortTransaction();
     await session.endSession();
-    throw new Error('Failed to delete student');
+    throw new Error('Failed to delete delivery man');
   }
 };
 
-export const StudentServices = {
+export const DeliveryManServices = {
   getAllDeliveryMansFromDB,
   getSingleDeliveryManFromDB,
   updateDeliveryManIntoDB,
