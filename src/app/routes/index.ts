@@ -2,9 +2,9 @@ import { Router } from 'express';
 import { AdminRoutes } from '../modules/Admin/admin.route';
 import { AuthRoutes } from '../modules/Auth/auth.route';
 import { CourseRoutes } from '../modules/Course/course.route';
-import { MentorRoutes } from '../modules/Mentor/mentor.route';
+import { ModeratorRoutes } from '../modules/Moderator/moderator.route';
 import { batchRoutes } from '../modules/Batch/batch.route';
-import { StudentRoutes } from '../modules/student/student.route';
+import { StudentRoutes } from '../modules/Student/student.route';
 import { UserRoutes } from '../modules/user/user.route';
 import { HomeRoutes } from '../modules/Home/home.route';
 import { SuperAdminRoutes } from '../modules/SuparAdmin/superAdmin.route';
@@ -26,8 +26,8 @@ const moduleRoutes = [
     route: StudentRoutes,
   },
   {
-    path: '/mentors',
-    route: MentorRoutes,
+    path: '/moderator',
+    route: ModeratorRoutes,
   },
   {
     path: '/admins',

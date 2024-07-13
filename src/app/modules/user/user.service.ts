@@ -7,10 +7,10 @@ import AppError from '../../errors/AppError';
 // import { sendImageToCloudinary } from '../../utils/sendImageToCloudinary';
 import { TAdmin } from '../Admin/admin.interface';
 import { Admin } from '../Admin/admin.model';
-import { TMentor } from '../Mentor/mentor.interface';
-import { Mentor } from '../Mentor/mentor.model';
-import { TStudent } from '../student/student.interface';
-import { Student } from '../student/student.model';
+import { TModerator } from '../Moderator/moderator.interface';
+import { Moderator } from '../Moderator/moderator.model';
+import { TStudent } from '../Student/student.interface';
+import { Student } from '../Student/student.model';
 import { TUser } from './user.interface';
 import { User } from './user.model';
 // import {
@@ -83,7 +83,7 @@ const createStudentIntoDB = async (
 const createFacultyIntoDB = async (
   file: any,
   password: string,
-  payload: TMentor,
+  payload: TModerator,
 ) => {
   // create a user object
   const userData: Partial<TUser> = {};
@@ -121,7 +121,7 @@ const createFacultyIntoDB = async (
     // payload.profileImg = secure_url;
     // create a faculty (transaction-2)
 
-    const newFaculty = await Mentor.create([payload], { session });
+    const newFaculty = await Moderator.create([payload], { session });
 
     if (!newFaculty.length) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create faculty');
@@ -269,7 +269,7 @@ const getMe = async (userId: string, role: string) => {
   }
 
   if (role === 'faculty') {
-    result = await Mentor.findOne({ id: userId }).populate('user');
+    result = await Moderator.findOne({ id: userId }).populate('user');
   }
 
   return result;

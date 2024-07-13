@@ -4,16 +4,16 @@ import mongoose from 'mongoose';
 import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
 import { User } from '../user/user.model';
-import { MentorSearchableFields } from './mentor.constant';
-import { TMentor } from './mentor.interface';
-import { Mentor } from './mentor.model';
+import { ModeratorSearchableFields } from './moderator.constant';
+import { TModerator } from './moderator.interface';
+import { Moderator } from './moderator.model';
 
-const getAllMentorsFromDB = async (query: Record<string, unknown>) => {
+const getAllModeratorsFromDB = async (query: Record<string, unknown>) => {
   const mentorQuery = new QueryBuilder(
-    Mentor.find().populate('academicDepartment'),
+    Moderator.find().populate('academicDepartment'),
     query,
   )
-    .search(MentorSearchableFields)
+    .search(ModeratorSearchableFields)
     .filter()
     .sort()
     .paginate()
@@ -23,13 +23,16 @@ const getAllMentorsFromDB = async (query: Record<string, unknown>) => {
   return result;
 };
 
-const getSingleMentorFromDB = async (id: string) => {
-  const result = await Mentor.findById(id).populate('academicDepartment');
+const getSingleModeratorFromDB = async (id: string) => {
+  const result = await Moderator.findById(id).populate('academicDepartment');
 
   return result;
 };
 
-const updateMentorIntoDB = async (id: string, payload: Partial<TMentor>) => {
+const updateModeratorIntoDB = async (
+  id: string,
+  payload: Partial<TModerator>,
+) => {
   const { name, ...remainingMentorData } = payload;
 
   const modifiedUpdatedData: Record<string, unknown> = {
@@ -42,20 +45,20 @@ const updateMentorIntoDB = async (id: string, payload: Partial<TMentor>) => {
     }
   }
 
-  const result = await Mentor.findByIdAndUpdate(id, modifiedUpdatedData, {
+  const result = await Moderator.findByIdAndUpdate(id, modifiedUpdatedData, {
     new: true,
     runValidators: true,
   });
   return result;
 };
 
-const deleteMentorFromDB = async (id: string) => {
+const deleteModeratorFromDB = async (id: string) => {
   const session = await mongoose.startSession();
 
   try {
     session.startTransaction();
 
-    const deletedFaculty = await Mentor.findByIdAndUpdate(
+    const deletedFaculty = await Moderator.findByIdAndUpdate(
       id,
       { isDeleted: true },
       { new: true, session },
@@ -89,9 +92,9 @@ const deleteMentorFromDB = async (id: string) => {
   }
 };
 
-export const MentorServices = {
-  getAllMentorsFromDB,
-  getSingleMentorFromDB,
-  updateMentorIntoDB,
-  deleteMentorFromDB,
+export const ModeratorServices = {
+  getAllModeratorsFromDB,
+  getSingleModeratorFromDB,
+  updateModeratorIntoDB,
+  deleteModeratorFromDB,
 };

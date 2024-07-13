@@ -4,7 +4,7 @@ import { TBatch } from './batch.interface';
 import { Course } from '../Course/course.model';
 import AppError from '../../errors/AppError';
 import httpStatus from 'http-status';
-import { Mentor } from '../Mentor/mentor.model';
+import { Moderator } from '../Moderator/moderator.model';
 
 const batchSchema = new mongoose.Schema<TBatch>(
   {
@@ -62,7 +62,7 @@ batchSchema.pre('save', async function (next) {
       `This course with id ${batch.course} is not found!`,
     );
   }
-  const mentor = await Mentor.findById(batch.mentor);
+  const mentor = await Moderator.findById(batch.mentor);
   if (!mentor) {
     throw new AppError(
       httpStatus.NOT_FOUND,

@@ -18,7 +18,7 @@ export type TUserName = {
   lastName: string;
 };
 
-export type TMentor = {
+export type TModerator = {
   user: Types.ObjectId;
   designation: string;
   name: TUserName;
@@ -36,6 +36,6 @@ export type TMentor = {
   createdBy: Types.ObjectId;
 };
 
-export interface MentorModel extends Model<TMentor> {
-  isUserExists(id: string): Promise<TMentor | null>;
+export interface ModeratorModel extends Model<TModerator> {
+  isUserExists(id: string): Promise<TModerator | null>;
 }

@@ -72,9 +72,9 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
       required: [true, 'Permanent address is required'],
     },
     profileImg: { type: String },
-    isDeleted: {
-      type: Boolean,
-      default: false,
+    status: {
+      type: String,
+      default: 'active',
     },
   },
   {
@@ -88,9 +88,9 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
 adminSchema.virtual('fullName').get(function () {
   return (
     this?.name?.firstName +
-    '' +
+    ' ' +
     this?.name?.middleName +
-    '' +
+    ' ' +
     this?.name?.lastName
   );
 });

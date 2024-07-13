@@ -32,7 +32,7 @@ export type TAdmin = {
   presentAddress: string;
   permanentAddress: string;
   profileImg?: string;
-  isDeleted: boolean;
+  status: string;
 };
 
 export interface AdminModel extends Model<TAdmin> {

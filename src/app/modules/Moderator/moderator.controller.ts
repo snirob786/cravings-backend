@@ -1,11 +1,11 @@
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import { MentorServices } from './mentor.service';
+import { ModeratorServices } from './moderator.service';
 
-const getSingleMentor = catchAsync(async (req, res) => {
+const getSingleModerator = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await MentorServices.getSingleMentorFromDB(id);
+  const result = await ModeratorServices.getSingleModeratorFromDB(id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -15,8 +15,8 @@ const getSingleMentor = catchAsync(async (req, res) => {
   });
 });
 
-const getAllMentors = catchAsync(async (req, res) => {
-  const result = await MentorServices.getAllMentorsFromDB(req.query);
+const getAllModerators = catchAsync(async (req, res) => {
+  const result = await ModeratorServices.getAllModeratorsFromDB(req.query);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -26,10 +26,10 @@ const getAllMentors = catchAsync(async (req, res) => {
   });
 });
 
-const updateMentor = catchAsync(async (req, res) => {
+const updateModerator = catchAsync(async (req, res) => {
   const { id } = req.params;
   const { faculty } = req.body;
-  const result = await MentorServices.updateMentorIntoDB(id, faculty);
+  const result = await ModeratorServices.updateModeratorIntoDB(id, faculty);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -39,9 +39,9 @@ const updateMentor = catchAsync(async (req, res) => {
   });
 });
 
-const deleteMentor = catchAsync(async (req, res) => {
+const deleteModerator = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await MentorServices.deleteMentorFromDB(id);
+  const result = await ModeratorServices.deleteModeratorFromDB(id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -52,8 +52,8 @@ const deleteMentor = catchAsync(async (req, res) => {
 });
 
 export const MentorControllers = {
-  getAllMentors,
-  getSingleMentor,
-  updateMentor,
-  deleteMentor,
+  getAllModerators,
+  getSingleModerator,
+  updateModerator,
+  deleteModerator,
 };

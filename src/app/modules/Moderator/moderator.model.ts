@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
-import { BloodGroup, Gender } from './mentor.constant';
-import { MentorModel, TMentor, TUserName } from './mentor.interface';
+import { BloodGroup, Gender } from './moderator.constant';
+import { ModeratorModel, TModerator, TUserName } from './moderator.interface';
 import { UserStatus } from '../user/user.constant';
 
 const userNameSchema = new Schema<TUserName>({
@@ -20,7 +20,7 @@ const userNameSchema = new Schema<TUserName>({
   },
 });
 
-const mentorSchema = new Schema<TMentor, MentorModel>(
+const moderatorSchema = new Schema<TModerator, ModeratorModel>(
   {
     user: {
       type: Schema.Types.ObjectId,
@@ -93,36 +93,39 @@ const mentorSchema = new Schema<TMentor, MentorModel>(
 );
 
 // generating full name
-mentorSchema.virtual('fullName').get(function () {
+moderatorSchema.virtual('fullName').get(function () {
   return (
     this?.name?.firstName +
-    '' +
+    ' ' +
     this?.name?.middleName +
-    '' +
+    ' ' +
     this?.name?.lastName
   );
 });
 
 // filter out deleted documents
-mentorSchema.pre('find', function (next) {
+moderatorSchema.pre('find', function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
 
-mentorSchema.pre('findOne', function (next) {
+moderatorSchema.pre('findOne', function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
 
-mentorSchema.pre('aggregate', function (next) {
+moderatorSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
   next();
 });
 
 //checking if user is already exist!
-mentorSchema.statics.isUserExists = async function (id: string) {
-  const existingUser = await Mentor.findOne({ id });
+moderatorSchema.statics.isUserExists = async function (id: string) {
+  const existingUser = await Moderator.findOne({ id });
   return existingUser;
 };
 
-export const Mentor = model<TMentor, MentorModel>('Mentor', mentorSchema);
+export const Moderator = model<TModerator, ModeratorModel>(
+  'Moderator',
+  moderatorSchema,
+);

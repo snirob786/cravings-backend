@@ -1,4 +1,4 @@
-import { TBloodGroup, TGender } from './mentor.interface';
+import { TBloodGroup, TGender } from './moderator.interface';
 
 export const Gender: TGender[] = ['male', 'female', 'other'];
 
@@ -13,7 +13,7 @@ export const BloodGroup: TBloodGroup[] = [
   'O-',
 ];
 
-export const MentorSearchableFields = [
+export const ModeratorSearchableFields = [
   'email',
   'id',
   'contactNo',
