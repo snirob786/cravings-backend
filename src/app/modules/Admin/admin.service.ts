@@ -10,7 +10,15 @@ import { Admin } from './admin.model';
 
 const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
   const adminQuery = new QueryBuilder(
-    Admin.find().populate('restaurant'),
+    Admin.find()
+      .populate({
+        path: 'restaurant',
+        populate: {
+          path: 'moderator',
+          model: 'Moderator',
+        },
+      })
+      .populate('user'),
     query,
   )
 
@@ -25,7 +33,9 @@ const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleAdminFromDB = async (id: string) => {
-  const result = await Admin.findById(id);
+  const result = await Admin.findById(id)
+    .populate('restaurant')
+    .populate('user');
   return result;
 };
 

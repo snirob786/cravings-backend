@@ -9,7 +9,7 @@ import { TSuperAdmin } from './superAdmin.interface';
 import { SuperAdmin } from './superAdmin.model';
 
 const getAllSuperAdminsFromDB = async (query: Record<string, unknown>) => {
-  const adminQuery = new QueryBuilder(SuperAdmin.find(), query)
+  const adminQuery = new QueryBuilder(SuperAdmin.find().populate('user'), query)
     .search(AdminSearchableFields)
     .filter()
     .sort()
@@ -21,7 +21,7 @@ const getAllSuperAdminsFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleSuperAdminFromDB = async (id: string) => {
-  const result = await SuperAdmin.findById(id);
+  const result = await SuperAdmin.findById(id).populate('user');
   return result;
 };
 

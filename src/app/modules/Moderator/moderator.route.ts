@@ -19,7 +19,7 @@ router.delete('/:id', ModeratorControllers.deleteModerator);
 
 router.get(
   '/',
-  auth(USER_ROLE.admin, USER_ROLE.moderator),
+  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
   ModeratorControllers.getAllModerators,
 );
 

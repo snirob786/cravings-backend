@@ -24,7 +24,7 @@ const moduleRoutes = [
     route: DeliveryManRoutes,
   },
   {
-    path: '/moderator',
+    path: '/moderators',
     route: ModeratorRoutes,
   },
   {
