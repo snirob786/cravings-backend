@@ -3,16 +3,16 @@ import httpStatus from 'http-status';
 import mongoose from 'mongoose';
 import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
-import { RestaurantStatus } from './restaurant.constant';
-import { TRestaurant } from './restaurant.interface';
-import { Restaurant } from './restaurant.model';
+import { SubCategoryStatus } from './subCategory.constant';
+import { TSubCategory } from './subCategory.interface';
+import { SubCategory } from './subCategory.model';
 import { Admin } from '../Admin/admin.model';
 import { User } from '../user/user.model';
 
-const createRestaurantIntoDB = async (payload: any) => {
+const createSubCategoryIntoDB = async (payload: any) => {
   const userInfo = await Admin.isUserExists(payload.createdBy);
 
-  const result = await Restaurant.create(payload);
+  const result = await SubCategory.create(payload);
   const updateAdmin = await Admin.updateOne(
     {
       _id: payload.owner,
@@ -25,12 +25,12 @@ const createRestaurantIntoDB = async (payload: any) => {
   return result;
 };
 
-const getAllRestaurantesFromDB = async (query: Record<string, unknown>) => {
+const getAllSubCategoriesFromDB = async (query: Record<string, unknown>) => {
   const batchQuery = new QueryBuilder(
-    Restaurant.find()
-      .populate('createdBy')
-      .populate('owner')
-      .populate('moderator'),
+    SubCategory.find()
+      .populate('restaurant')
+      .populate('category')
+      .populate('createdBy'),
     query,
   )
     .filter()
@@ -42,15 +42,18 @@ const getAllRestaurantesFromDB = async (query: Record<string, unknown>) => {
   return result;
 };
 
-const getSingleRestaurantFromDB = async (id: string) => {
-  const result = await Restaurant.findById(id);
+const getSingleSubCategoryFromDB = async (id: string) => {
+  const result = await SubCategory.findById(id)
+    .populate('restaurant')
+    .populate('category')
+    .populate('createdBy');
 
   return result;
 };
 
-const updateRestaurantIntoDB = async (
+const updateSubCategoryIntoDB = async (
   id: string,
-  payload: Partial<TRestaurant>,
+  payload: Partial<TSubCategory>,
 ) => {
   /**
    * Step1: Check if the semester is exist
@@ -66,13 +69,16 @@ const updateRestaurantIntoDB = async (
 
   // check if the requested registered semester is exists
   // check if the semester is already registered!
-  const isRestaurantExists = await Restaurant.findById(id);
+  const isSubCategoryExists = await SubCategory.findById(id);
 
-  if (!isRestaurantExists) {
-    throw new AppError(httpStatus.NOT_FOUND, 'This restaurant is not found !');
+  if (!isSubCategoryExists) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'This sub category is not found !',
+    );
   }
 
-  const result = await Restaurant.findByIdAndUpdate(id, payload, {
+  const result = await SubCategory.findByIdAndUpdate(id, payload, {
     new: true,
     runValidators: true,
   });
@@ -80,7 +86,7 @@ const updateRestaurantIntoDB = async (
   return result;
 };
 
-const deleteRestaurantFromDB = async (id: string) => {
+const deleteSubCategoryFromDB = async (id: string) => {
   /** 
   * Step1: Delete associated offered courses.
   * Step2: Delete semester registraton when the status is 
@@ -88,10 +94,13 @@ const deleteRestaurantFromDB = async (id: string) => {
   **/
 
   // checking if the semester registration is exist
-  const isRestaurantExists = await Restaurant.findById(id);
+  const isSubCategoryExists = await SubCategory.findById(id);
 
-  if (!isRestaurantExists) {
-    throw new AppError(httpStatus.NOT_FOUND, 'This batch is not found !');
+  if (!isSubCategoryExists) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'This sub category is not found !',
+    );
   }
 
   const session = await mongoose.startSession();
@@ -101,7 +110,7 @@ const deleteRestaurantFromDB = async (id: string) => {
   try {
     session.startTransaction();
 
-    const deletedRestaurant = await Restaurant.findByIdAndUpdate(
+    const deletedSubCategory = await SubCategory.findByIdAndUpdate(
       id,
       { status: 'deleted' },
       {
@@ -110,10 +119,10 @@ const deleteRestaurantFromDB = async (id: string) => {
       },
     );
 
-    if (!deletedRestaurant) {
+    if (!deletedSubCategory) {
       throw new AppError(
         httpStatus.BAD_REQUEST,
-        'Failed to delete restaurant!',
+        'Failed to delete sub category registration !',
       );
     }
 
@@ -128,10 +137,10 @@ const deleteRestaurantFromDB = async (id: string) => {
   }
 };
 
-export const RestaurantService = {
-  createRestaurantIntoDB,
-  getAllRestaurantesFromDB,
-  getSingleRestaurantFromDB,
-  updateRestaurantIntoDB,
-  deleteRestaurantFromDB,
+export const SubCategoryService = {
+  createSubCategoryIntoDB,
+  getAllSubCategoriesFromDB,
+  getSingleSubCategoryFromDB,
+  updateSubCategoryIntoDB,
+  deleteSubCategoryFromDB,
 };

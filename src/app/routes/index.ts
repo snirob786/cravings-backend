@@ -2,11 +2,14 @@ import { Router } from 'express';
 import { AdminRoutes } from '../modules/Admin/admin.route';
 import { AuthRoutes } from '../modules/Auth/auth.route';
 import { ModeratorRoutes } from '../modules/Moderator/moderator.route';
-import { restaurantRoutes } from '../modules/Restaurant/restaurant.route';
+import { RestaurantRoutes } from '../modules/Restaurant/restaurant.route';
 import { DeliveryManRoutes } from '../modules/DeliveryMan/deliveryMan.route';
 import { UserRoutes } from '../modules/user/user.route';
 import { HomeRoutes } from '../modules/Home/home.route';
 import { SuperAdminRoutes } from '../modules/SuparAdmin/superAdmin.route';
+import { CategoriesRoutes } from '../modules/Category/category.route';
+import { SubCategoriesRoutes } from '../modules/SubCategory/subCategory.route';
+import { MenuItemRoutes } from '../modules/MenuItems/menuItem.route';
 
 const router = Router();
 
@@ -37,7 +40,19 @@ const moduleRoutes = [
   },
   {
     path: '/restaurants',
-    route: restaurantRoutes,
+    route: RestaurantRoutes,
+  },
+  {
+    path: '/categories',
+    route: CategoriesRoutes,
+  },
+  {
+    path: '/sub-categories',
+    route: SubCategoriesRoutes,
+  },
+  {
+    path: '/menu-items',
+    route: MenuItemRoutes,
   },
   {
     path: '/auth',
