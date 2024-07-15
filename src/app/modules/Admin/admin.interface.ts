@@ -33,6 +33,7 @@ export type TAdmin = {
   permanentAddress: string;
   profileImg?: string;
   status: string;
+  restaurant: Types.ObjectId;
 };
 
 export interface AdminModel extends Model<TAdmin> {

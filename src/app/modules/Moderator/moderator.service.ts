@@ -10,7 +10,7 @@ import { Moderator } from './moderator.model';
 
 const getAllModeratorsFromDB = async (query: Record<string, unknown>) => {
   const moderatorQuery = new QueryBuilder(
-    Moderator.find().populate('academicDepartment'),
+    Moderator.find().populate('restaurant').populate('createdBy'),
     query,
   )
     .search(ModeratorSearchableFields)

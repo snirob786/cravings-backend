@@ -34,9 +34,16 @@ const restaurantSchema = new mongoose.Schema<TRestaurant>(
     address: addressSchema,
     restaurantType: String,
     cuisine: String,
-    onwerName: String,
-    ownerContactNumber: String,
-    ownerEmail: String,
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'Admin',
+    },
+    moderator: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Moderator',
+      },
+    ],
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',

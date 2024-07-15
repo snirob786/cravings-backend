@@ -34,6 +34,7 @@ export type TModerator = {
   isDeleted: boolean;
   status: 'in-progress' | 'blocked' | 'active';
   createdBy: Types.ObjectId;
+  restaurant: Types.ObjectId;
 };
 
 export interface ModeratorModel extends Model<TModerator> {

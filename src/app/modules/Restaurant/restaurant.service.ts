@@ -6,37 +6,31 @@ import AppError from '../../errors/AppError';
 import { RestaurantStatus } from './restaurant.constant';
 import { TRestaurant } from './restaurant.interface';
 import { Restaurant } from './restaurant.model';
+import { Admin } from '../Admin/admin.model';
+import { User } from '../user/user.model';
 
 const createRestaurantIntoDB = async (payload: any) => {
-  console.log('restaurant create payload: ', payload);
-  /**
-   * Step1: Check if there any registered semester that is already 'UPCOMING'|'ONGOING'
-   * Step2: Check if the semester is exist
-   * Step3: Check if the semester is already registered!
-   * Step4: Create the semester registration
-   */
+  const userInfo = await Admin.isUserExists(payload.createdBy);
 
-  //check if there any registered semester that is already 'UPCOMING'|'ONGOING'
-  // const isThereAnyUpcomingOrOngoingBatch = await Restaurant.findOne({
-  //   $or: [
-  //     { status: RestaurantStatus.active },
-  //     { status: RestaurantStatus.ONGOING },
-  //   ],
-  // });
-
-  // if (isThereAnyUpcomingOrOngoingBatch) {
-  //   throw new AppError(
-  //     httpStatus.BAD_REQUEST,
-  //     `There is aready an batch named ${isThereAnyUpcomingOrOngoingBatch.status} registered!`,
-  //   );
-  // }
   const result = await Restaurant.create(payload);
+  const updateAdmin = await Admin.updateOne(
+    {
+      _id: payload.owner,
+    },
+    {
+      restaurant: result._id,
+    },
+  );
+
   return result;
 };
 
 const getAllRestaurantesFromDB = async (query: Record<string, unknown>) => {
   const batchQuery = new QueryBuilder(
-    Restaurant.find().populate('createdBy'),
+    Restaurant.find()
+      .populate('createdBy')
+      .populate('owner')
+      .populate('moderator'),
     query,
   )
     .filter()

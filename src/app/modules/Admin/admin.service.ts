@@ -9,7 +9,11 @@ import { TAdmin } from './admin.interface';
 import { Admin } from './admin.model';
 
 const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
-  const adminQuery = new QueryBuilder(Admin.find(), query)
+  const adminQuery = new QueryBuilder(
+    Admin.find().populate('restaurant'),
+    query,
+  )
+
     .search(AdminSearchableFields)
     .filter()
     .sort()

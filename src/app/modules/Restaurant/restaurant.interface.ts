@@ -19,8 +19,11 @@ export type TRestaurant = {
   address: TAddress;
   restaurantType: String;
   cuisine: String;
-  onwerName: String;
-  ownerContactNumber: String;
-  ownerEmail: String;
+  owner: Types.ObjectId;
+  moderator: [
+    {
+      type: Types.ObjectId;
+    },
+  ];
   createdBy: Types.ObjectId;
 };

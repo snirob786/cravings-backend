@@ -84,6 +84,10 @@ const moderatorSchema = new Schema<TModerator, ModeratorModel>(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
+    restaurant: {
+      type: Schema.Types.ObjectId,
+      ref: 'Restaurant',
+    },
   },
   {
     toJSON: {
