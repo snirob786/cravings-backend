@@ -7,6 +7,7 @@ const createSubCategoryValidationSchema = z.object({
     status: z
       .enum([...(SubCategoryRegistrationStatus as [string, ...string[]])])
       .optional(),
+    category: z.string(),
     restaurant: z.string(),
   }),
 });

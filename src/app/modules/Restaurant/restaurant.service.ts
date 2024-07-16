@@ -43,7 +43,10 @@ const getAllRestaurantesFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleRestaurantFromDB = async (id: string) => {
-  const result = await Restaurant.findById(id);
+  const result = await Restaurant.findById(id)
+    .populate('createdBy')
+    .populate('owner')
+    .populate('moderator');
 
   return result;
 };

@@ -5,7 +5,6 @@ import sendResponse from '../../utils/sendResponse';
 import { SubCategoryService } from './subCategory.service';
 
 const createSubCategory = catchAsync(async (req: Request, res: Response) => {
-  console.log('Sub category req in controller: ', req.user);
   let newPayload = {
     ...req.body,
     createdBy: req.user._id,

@@ -5,7 +5,6 @@ import sendResponse from '../../utils/sendResponse';
 import { CategoryService } from './menuItem.service';
 
 const createMenuItem = catchAsync(async (req: Request, res: Response) => {
-  console.log('category req in controller: ', req.user);
   let newPayload = {
     ...req.body,
     createdBy: req.user._id,

@@ -13,15 +13,6 @@ const createCategoryIntoDB = async (payload: any) => {
   const userInfo = await Admin.isUserExists(payload.createdBy);
 
   const result = await Category.create(payload);
-  const updateAdmin = await Admin.updateOne(
-    {
-      _id: payload.owner,
-    },
-    {
-      restaurant: result._id,
-    },
-  );
-
   return result;
 };
 
@@ -29,7 +20,14 @@ const getAllCategoriesFromDB = async (query: Record<string, unknown>) => {
   const batchQuery = new QueryBuilder(
     Category.find()
       .populate('restaurant')
-      .populate('subCategory')
+      .populate({
+        path: 'subCategory',
+        populate: {
+          path: 'menuItem',
+          model: 'MenuItem',
+        },
+      })
+      .populate('menuItem')
       .populate('createdBy'),
     query,
   )
@@ -45,7 +43,14 @@ const getAllCategoriesFromDB = async (query: Record<string, unknown>) => {
 const getSingleCategoryFromDB = async (id: string) => {
   const result = await Category.findById(id)
     .populate('restaurant')
-    .populate('subCategory')
+    .populate({
+      path: 'subCategory',
+      populate: {
+        path: 'menuItem',
+        model: 'MenuItem',
+      },
+    })
+    .populate('menuItem')
     .populate('createdBy');
 
   return result;

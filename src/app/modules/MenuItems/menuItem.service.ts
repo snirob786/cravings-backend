@@ -8,19 +8,52 @@ import { TMenuItem } from './menuItem.interface';
 import { MenuItem } from './menuItem.model';
 import { Admin } from '../Admin/admin.model';
 import { User } from '../user/user.model';
+import { SubCategory } from '../SubCategory/subCategory.model';
+import { Category } from '../Category/category.model';
 
 const createMenuItemIntoDB = async (payload: any) => {
+  console.log('payload: ', payload);
+
   const userInfo = await Admin.isUserExists(payload.createdBy);
 
   const result = await MenuItem.create(payload);
-  const updateAdmin = await Admin.updateOne(
-    {
-      _id: payload.owner,
-    },
-    {
-      restaurant: result._id,
-    },
-  );
+  if (payload.subCategory) {
+    const getSubCategory = await SubCategory.findById(payload.subCategory);
+    const newSubCategoryMenuItems: any = getSubCategory?.menuItem || [];
+    newSubCategoryMenuItems.push(result._id);
+    const updateSubCategory = await SubCategory.updateOne(
+      {
+        _id: payload.subCategory,
+      },
+      {
+        menuItem: newSubCategoryMenuItems,
+      },
+    );
+  } else if (payload.category) {
+    console.log('test: ');
+    const getCategory = await Category.findById(payload.category);
+    console.log('getCategory: ', getCategory);
+    const newCategoryMenuItems: any = getCategory?.menuItem || [];
+    newCategoryMenuItems.push(result._id);
+    console.log('newCategoryMenuItems: ', newCategoryMenuItems);
+    const updateCategory = await Category.updateOne(
+      {
+        _id: payload.category,
+      },
+      {
+        menuItem: newCategoryMenuItems,
+      },
+    );
+    console.log('updateCategory: ', updateCategory);
+  }
+  // const updateAdmin = await Admin.updateOne(
+  //   {
+  //     _id: payload.owner,
+  //   },
+  //   {
+  //     restaurant: result._id,
+  //   },
+  // );
 
   return result;
 };

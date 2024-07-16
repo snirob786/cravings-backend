@@ -134,7 +134,6 @@ const createModeratorIntoDB = async (
     // create a faculty (transaction-2)
 
     const newModerator: any = await Moderator.create([payload], { session });
-    console.log('🚀 ~ newModerator:', newModerator);
 
     if (!newModerator.length) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create modeartor');
@@ -148,19 +147,16 @@ const createModeratorIntoDB = async (
     let getRestaurantModerators: any = await Restaurant.findById(
       payload.restaurant,
     );
-    console.log('🚀 ~ getRestaurantModerators:', getRestaurantModerators);
 
     let newRestaurantModerators = getRestaurantModerators?.moderator
       ? getRestaurantModerators?.moderator
       : [];
     newRestaurantModerators.push(newModerator[0]._id);
-    console.log('🚀 ~ newRestaurantModerators:', newRestaurantModerators);
     const newUpdateRestaurant = await Restaurant.updateOne(
       { _id: getRestaurantModerators?._id },
       { moderator: newRestaurantModerators },
       { session },
     );
-    console.log('🚀 ~ newUpdateRestaurant:', newUpdateRestaurant);
 
     await session.commitTransaction();
     await session.endSession();

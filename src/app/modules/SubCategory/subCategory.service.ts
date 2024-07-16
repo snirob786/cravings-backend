@@ -8,11 +8,18 @@ import { TSubCategory } from './subCategory.interface';
 import { SubCategory } from './subCategory.model';
 import { Admin } from '../Admin/admin.model';
 import { User } from '../user/user.model';
+import { Category } from '../Category/category.model';
 
 const createSubCategoryIntoDB = async (payload: any) => {
   const userInfo = await Admin.isUserExists(payload.createdBy);
 
   const result = await SubCategory.create(payload);
+
+  const getCategoryInfo = await Category.findById(payload.category);
+  console.log('getCategoryInfo: ', getCategoryInfo);
+  const newCategorySubCategory: any = getCategoryInfo?.subCategory || [];
+  newCategorySubCategory.push(result._id);
+
   const updateAdmin = await Admin.updateOne(
     {
       _id: payload.owner,
@@ -21,6 +28,16 @@ const createSubCategoryIntoDB = async (payload: any) => {
       restaurant: result._id,
     },
   );
+  const updateCategory = await Category.updateOne(
+    {
+      _id: payload.category,
+    },
+    {
+      subCategory: newCategorySubCategory,
+    },
+  );
+
+  console.log('updateCategory: ', updateCategory);
 
   return result;
 };
@@ -30,7 +47,8 @@ const getAllSubCategoriesFromDB = async (query: Record<string, unknown>) => {
     SubCategory.find()
       .populate('restaurant')
       .populate('category')
-      .populate('createdBy'),
+      .populate('createdBy')
+      .populate('menuItem'),
     query,
   )
     .filter()
@@ -46,6 +64,7 @@ const getSingleSubCategoryFromDB = async (id: string) => {
   const result = await SubCategory.findById(id)
     .populate('restaurant')
     .populate('category')
+    .populate('menuItem')
     .populate('createdBy');
 
   return result;

@@ -4,6 +4,11 @@ export type TSubCategory = {
   title: string;
   status: 'active' | 'deleted' | 'inactive';
   category: Types.ObjectId;
+  menuItem: [
+    {
+      type: Types.ObjectId;
+    },
+  ];
   restaurant: Types.ObjectId;
   createdBy: Types.ObjectId;
 };

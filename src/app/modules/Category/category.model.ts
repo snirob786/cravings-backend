@@ -22,6 +22,12 @@ const categorySchema = new mongoose.Schema<TCategory>(
         ref: 'SubCategory',
       },
     ],
+    menuItem: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'MenuItem',
+      },
+    ],
     restaurant: {
       type: Schema.Types.ObjectId,
       ref: 'Restaurant',
