@@ -28,6 +28,7 @@ const getAllSpecialMenusFromDB = async (query: Record<string, unknown>) => {
     .fields();
 
   const result = await batchQuery.modelQuery;
+  console.log('get all special menus result: ', result);
   return result;
 };
 
@@ -67,11 +68,12 @@ const updateSpecialMenuIntoDB = async (
       'This special menu is not found !',
     );
   }
+  let newMenutItems: any = isSpecialMenuExists.menuItem || [];
+  newMenutItems = newMenutItems.concat(payload.menuItem);
+  console.log('newMenutItems: ', newMenutItems);
 
-  const result = await SpecialMenu.findByIdAndUpdate(id, payload, {
-    new: true,
-    runValidators: true,
-  });
+  const result = await SpecialMenu.findByIdAndUpdate(id, payload);
+  console.log('update value result: ', result);
 
   return result;
 };

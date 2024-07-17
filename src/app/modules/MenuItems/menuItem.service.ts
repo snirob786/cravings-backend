@@ -64,8 +64,7 @@ const getAllMenuItemsFromDB = async (query: Record<string, unknown>) => {
       .populate('restaurant')
       .populate('subCategory')
       .populate('category')
-      .populate('createdBy')
-      .populate('variations'),
+      .populate('createdBy'), //.populate('variations')
     query,
   )
     .filter()
@@ -82,9 +81,7 @@ const getSingleMenuItemFromDB = async (id: string) => {
     .populate('restaurant')
     .populate('subCategory')
     .populate('category')
-    .populate('createdBy')
-    .populate('variations');
-
+    .populate('createdBy'); //.populate('variations')
   return result;
 };
 
