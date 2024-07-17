@@ -10,6 +10,7 @@ import { SuperAdminRoutes } from '../modules/SuparAdmin/superAdmin.route';
 import { CategoriesRoutes } from '../modules/Category/category.route';
 import { SubCategoriesRoutes } from '../modules/SubCategory/subCategory.route';
 import { MenuItemRoutes } from '../modules/MenuItems/menuItem.route';
+import { SpecialMenusRoutes } from '../modules/SpecialMenu/specialMenu.route';
 
 const router = Router();
 
@@ -53,6 +54,10 @@ const moduleRoutes = [
   {
     path: '/menu-items',
     route: MenuItemRoutes,
+  },
+  {
+    path: '/special-menus',
+    route: SpecialMenusRoutes,
   },
   {
     path: '/auth',
