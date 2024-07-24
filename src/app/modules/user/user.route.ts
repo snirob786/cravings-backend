@@ -70,7 +70,7 @@ router.get(
   '/me',
   auth(
     USER_ROLE.deliveryMan,
-    USER_ROLE.user,
+    USER_ROLE.customer,
     USER_ROLE.admin,
     USER_ROLE.superAdmin,
     USER_ROLE.moderator,

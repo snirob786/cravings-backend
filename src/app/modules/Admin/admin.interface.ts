@@ -27,13 +27,11 @@ export type TAdmin = {
   dateOfBirth?: Date;
   email: string;
   contactNo: string;
-  emergencyContactNo: string;
   bloodGroup?: TBloodGroup;
   presentAddress: string;
   permanentAddress: string;
   profileImg?: string;
   status: string;
-  restaurant: Types.ObjectId;
 };
 
 export interface AdminModel extends Model<TAdmin> {

@@ -10,7 +10,11 @@ import { Moderator } from './moderator.model';
 
 const getAllModeratorsFromDB = async (query: Record<string, unknown>) => {
   const moderatorQuery = new QueryBuilder(
-    Moderator.find().populate('restaurant').populate('createdBy'),
+    Moderator.find()
+      .populate('restaurant')
+      .populate('user')
+      .populate('presentAddress')
+      .populate('permanentAddress'),
     query,
   )
     .search(ModeratorSearchableFields)
@@ -24,7 +28,11 @@ const getAllModeratorsFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleModeratorFromDB = async (id: string) => {
-  const result = await Moderator.findById(id).populate('academicDepartment');
+  const result = await Moderator.findById(id)
+    .populate('restaurant')
+    .populate('user')
+    .populate('presentAddress')
+    .populate('permanentAddress');
 
   return result;
 };

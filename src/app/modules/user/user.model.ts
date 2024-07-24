@@ -30,7 +30,7 @@ const userSchema = new Schema<TUser, UserModel>(
         USER_ROLE.deliveryMan,
         USER_ROLE.moderator,
         USER_ROLE.superAdmin,
-        USER_ROLE.user,
+        USER_ROLE.customer,
       ],
     },
     superAdmin: {
@@ -45,10 +45,22 @@ const userSchema = new Schema<TUser, UserModel>(
       type: Schema.Types.ObjectId,
       ref: 'Moderator',
     },
+    addresses: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Address',
+      },
+    ],
     deliveryMan: {
       type: Schema.Types.ObjectId,
       ref: 'DeliveryMan',
     },
+    order: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Order',
+      },
+    ],
     status: {
       type: String,
       enum: UserStatus,

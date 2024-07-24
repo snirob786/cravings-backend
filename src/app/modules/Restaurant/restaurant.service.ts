@@ -30,6 +30,9 @@ const getAllRestaurantesFromDB = async (query: Record<string, unknown>) => {
     Restaurant.find()
       .populate('createdBy')
       .populate('owner')
+      .populate('adderss')
+      .populate('pickUpAddress')
+      .populate('order')
       .populate('moderator'),
     query,
   )
@@ -46,6 +49,9 @@ const getSingleRestaurantFromDB = async (id: string) => {
   const result = await Restaurant.findById(id)
     .populate('createdBy')
     .populate('owner')
+    .populate('adderss')
+    .populate('pickUpAddress')
+    .populate('order')
     .populate('moderator');
 
   return result;
@@ -55,20 +61,6 @@ const updateRestaurantIntoDB = async (
   id: string,
   payload: Partial<TRestaurant>,
 ) => {
-  /**
-   * Step1: Check if the semester is exist
-   * Step2: Check if the requested registered semester is exists
-   * Step3: If the requested semester registration is ended, we will not update anything
-   * Step4: If the requested semester registration is 'UPCOMING', we will let update everything.
-   * Step5: If the requested semester registration is 'ONGOING', we will not update anything  except status to 'ENDED'
-   * Step6: If the requested semester registration is 'ENDED' , we will not update anything
-   *
-   * UPCOMING --> ONGOING --> ENDED
-   *
-   */
-
-  // check if the requested registered semester is exists
-  // check if the semester is already registered!
   const isRestaurantExists = await Restaurant.findById(id);
 
   if (!isRestaurantExists) {
@@ -84,13 +76,6 @@ const updateRestaurantIntoDB = async (
 };
 
 const deleteRestaurantFromDB = async (id: string) => {
-  /** 
-  * Step1: Delete associated offered courses.
-  * Step2: Delete semester registraton when the status is 
-  'UPCOMING'.
-  **/
-
-  // checking if the semester registration is exist
   const isRestaurantExists = await Restaurant.findById(id);
 
   if (!isRestaurantExists) {
@@ -98,8 +83,6 @@ const deleteRestaurantFromDB = async (id: string) => {
   }
 
   const session = await mongoose.startSession();
-
-  //deleting associated offered courses
 
   try {
     session.startTransaction();

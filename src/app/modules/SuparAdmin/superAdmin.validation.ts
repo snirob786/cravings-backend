@@ -22,6 +22,7 @@ export const createSuperAdminValidationSchema = z.object({
       presentAddress: z.string(),
       permanentAddress: z.string(),
       // profileImg: z.string(),
+      restaurant: z.string(),
     }),
   }),
 });
@@ -46,6 +47,7 @@ export const updateSuperAdminValidationSchema = z.object({
       presentAddress: z.string().optional(),
       permanentAddress: z.string().optional(),
       // profileImg: z.string().optional(),
+      restaurant: z.string().optional(),
     }),
   }),
 });

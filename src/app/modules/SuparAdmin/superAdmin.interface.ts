@@ -27,7 +27,6 @@ export type TSuperAdmin = {
   dateOfBirth?: Date;
   email: string;
   contactNo: string;
-  emergencyContactNo: string;
   bloodGroup?: TBloodGroup;
   presentAddress: string;
   permanentAddress: string;

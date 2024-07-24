@@ -62,7 +62,7 @@ const deleteSpecialMenu = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Special Menu is updated successfully',
+    message: 'Special Menu is deleted successfully',
     data: result,
   });
 });

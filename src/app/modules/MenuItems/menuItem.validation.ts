@@ -8,6 +8,8 @@ const createCategoryValidationSchema = z.object({
       .enum([...(MenuItemRegistrationStatus as [string, ...string[]])])
       .optional(),
     restaurant: z.string(),
+    price: z.number(),
+    quantity: z.number(),
   }),
 });
 
@@ -18,6 +20,8 @@ const upadateCategorySchema = z.object({
       .enum([...(MenuItemRegistrationStatus as [string, ...string[]])])
       .optional(),
     restaurant: z.string().optional(),
+    price: z.number().optional(),
+    quantity: z.number().optional(),
   }),
 });
 

@@ -12,8 +12,14 @@ export type TMenuItem = {
     },
   ];
   price: Number;
+  quantity: Number;
   notes: String;
   description: String;
+  order: [
+    {
+      type: Types.ObjectId;
+    },
+  ];
   restaurant: Types.ObjectId;
   createdBy: Types.ObjectId;
 };

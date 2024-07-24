@@ -9,6 +9,11 @@ export type TSubCategory = {
       type: Types.ObjectId;
     },
   ];
+  order: [
+    {
+      type: Types.ObjectId;
+    },
+  ];
   restaurant: Types.ObjectId;
   createdBy: Types.ObjectId;
 };

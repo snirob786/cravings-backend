@@ -72,10 +72,7 @@ const deleteAdminFromDB = async (id: string) => {
     );
 
     if (!deletedAdmin) {
-      throw new AppError(
-        httpStatus.BAD_REQUEST,
-        'Failed to delete delivery man',
-      );
+      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to delete admin');
     }
 
     // get user _id from deletedAdmin

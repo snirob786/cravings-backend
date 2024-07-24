@@ -26,14 +26,12 @@ export type TModerator = {
   dateOfBirth?: Date;
   email: string;
   contactNo: string;
-  emergencyContactNo: string;
   bloodGroup?: TBloodGroup;
   presentAddress: string;
   permanentAddress: string;
   profileImg?: string;
   isDeleted: boolean;
-  status: 'in-progress' | 'blocked' | 'active';
-  createdBy: Types.ObjectId;
+  status: string;
   restaurant: Types.ObjectId;
 };
 

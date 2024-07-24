@@ -24,14 +24,18 @@ export type TDeliveryMan = {
   dateOfBirth?: Date;
   email: string;
   contactNo: string;
-  emergencyContactNo: string;
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
   presentAddress: string;
   permanentAddress: string;
   vehicle: TVehicle;
   profileImg?: string;
+  order: [
+    {
+      type: Types.ObjectId;
+    },
+  ];
   status: string;
-  createdBy: Types.ObjectId;
+  restaurant: Types.ObjectId;
 };
 
 //for creating static

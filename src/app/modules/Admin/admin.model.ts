@@ -52,10 +52,6 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
       unique: true,
     },
     contactNo: { type: String, required: [true, 'Contact number is required'] },
-    emergencyContactNo: {
-      type: String,
-      required: [true, 'Emergency contact number is required'],
-    },
     bloodGroup: {
       type: String,
       enum: {
@@ -66,20 +62,17 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
     presentAddress: {
       type: String,
       required: [true, 'Present address is required'],
+      ref: 'Address',
     },
     permanentAddress: {
       type: String,
       required: [true, 'Permanent address is required'],
+      ref: 'Address',
     },
     profileImg: { type: String },
     status: {
       type: String,
       default: 'active',
-    },
-    restaurant: {
-      type: Schema.Types.ObjectId,
-      unique: true,
-      ref: 'Restaurant',
     },
   },
   {

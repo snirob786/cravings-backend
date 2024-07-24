@@ -27,11 +27,6 @@ const userNameSchema = new Schema<TUserName>({
 
 const superAdminSchema = new Schema<TSuperAdmin, SuperAdminModel>(
   {
-    // id: {
-    //   type: String,
-    //   required: [true, 'ID is required'],
-    //   unique: true,
-    // },
     user: {
       type: Schema.Types.ObjectId,
       required: [true, 'User id is required'],
@@ -61,10 +56,6 @@ const superAdminSchema = new Schema<TSuperAdmin, SuperAdminModel>(
       unique: true,
     },
     contactNo: { type: String, required: [true, 'Contact number is required'] },
-    emergencyContactNo: {
-      type: String,
-      required: [true, 'Emergency contact number is required'],
-    },
     bloodGroup: {
       type: String,
       enum: {
@@ -75,10 +66,12 @@ const superAdminSchema = new Schema<TSuperAdmin, SuperAdminModel>(
     presentAddress: {
       type: String,
       required: [true, 'Present address is required'],
+      ref: 'Address',
     },
     permanentAddress: {
       type: String,
       required: [true, 'Permanent address is required'],
+      ref: 'Address',
     },
     profileImg: { type: String },
     status: {

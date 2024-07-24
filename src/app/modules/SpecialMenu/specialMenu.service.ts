@@ -10,85 +10,91 @@ import { Admin } from '../Admin/admin.model';
 import { User } from '../user/user.model';
 
 const createSpecialMenuIntoDB = async (payload: any) => {
-  const result = await SpecialMenu.create(payload);
-  return result;
+  try {
+    const result = await SpecialMenu.create(payload);
+    return result;
+  } catch (error: any) {
+    throw new Error(error);
+  }
 };
 
 const getAllSpecialMenusFromDB = async (query: Record<string, unknown>) => {
-  const batchQuery = new QueryBuilder(
-    SpecialMenu.find()
-      .populate('restaurant')
-      .populate('menuItem')
-      .populate('createdBy'),
-    query,
-  )
-    .filter()
-    .sort()
-    .paginate()
-    .fields();
+  try {
+    const batchQuery = new QueryBuilder(
+      SpecialMenu.find()
+        .populate('restaurant')
+        .populate({
+          path: 'platter',
+          populate: {
+            path: 'menuItem',
+            model: 'MenuItem',
+          },
+        })
+        .populate('menuItem')
+        .populate('createdBy')
+        .populate('order'),
+      query,
+    )
+      .filter()
+      .sort()
+      .paginate()
+      .fields();
 
-  const result = await batchQuery.modelQuery;
-  console.log('get all special menus result: ', result);
-  return result;
+    const result = await batchQuery.modelQuery;
+    return result;
+  } catch (error: any) {
+    throw new Error(error);
+  }
 };
 
 const getSingleSpecialMenuFromDB = async (id: string) => {
-  const result = await SpecialMenu.findById(id)
-    .populate('restaurant')
-    .populate('menuItem')
-    .populate('createdBy');
+  try {
+    const result = await SpecialMenu.findById(id)
+      .populate('restaurant')
+      .populate({
+        path: 'platter',
+        populate: {
+          path: 'menuItem',
+          model: 'MenuItem',
+        },
+      })
+      .populate('menuItem')
+      .populate('createdBy')
+      .populate('order');
 
-  return result;
+    return result;
+  } catch (error: any) {
+    throw new Error(error);
+  }
 };
 
 const updateSpecialMenuIntoDB = async (
   id: string,
   payload: Partial<TSpecialMenu>,
 ) => {
-  console.log('🚀 ~ payload:', payload);
-  /**
-   * Step1: Check if the semester is exist
-   * Step2: Check if the requested registered semester is exists
-   * Step3: If the requested semester registration is ended, we will not update anything
-   * Step4: If the requested semester registration is 'UPCOMING', we will let update everything.
-   * Step5: If the requested semester registration is 'ONGOING', we will not update anything  except status to 'ENDED'
-   * Step6: If the requested semester registration is 'ENDED' , we will not update anything
-   *
-   * UPCOMING --> ONGOING --> ENDED
-   *
-   */
+  try {
+    const isSpecialMenuExists = await SpecialMenu.findById(id);
 
-  // check if the requested registered semester is exists
-  // check if the semester is already registered!
-  const isSpecialMenuExists = await SpecialMenu.findById(id);
+    if (!isSpecialMenuExists) {
+      throw new AppError(
+        httpStatus.NOT_FOUND,
+        'This special menu is not found !',
+      );
+    }
+    let newMenutItems: any = isSpecialMenuExists.menuItem || [];
+    newMenutItems = newMenutItems.concat(payload.menuItem);
 
-  if (!isSpecialMenuExists) {
-    throw new AppError(
-      httpStatus.NOT_FOUND,
-      'This special menu is not found !',
-    );
+    const result = await SpecialMenu.findByIdAndUpdate(id, payload);
+    return result;
+  } catch (error: any) {
+    throw new Error(error);
   }
-  let newMenutItems: any = isSpecialMenuExists.menuItem || [];
-  newMenutItems = newMenutItems.concat(payload.menuItem);
-  console.log('newMenutItems: ', newMenutItems);
-
-  const result = await SpecialMenu.findByIdAndUpdate(id, payload);
-  console.log('update value result: ', result);
-
-  return result;
 };
 
 const deleteSpecialMenuFromDB = async (id: string) => {
-  /** 
-  * Step1: Delete associated offered courses.
-  * Step2: Delete semester registraton when the status is 
-  'UPCOMING'.
-  **/
+  const isSpecialMenuExists = await SpecialMenu.findById(id);
 
-  // checking if the semester registration is exist
-  const isCategoryExists = await SpecialMenu.findById(id);
-
-  if (!isCategoryExists) {
+  if (!isSpecialMenuExists) {
     throw new AppError(
       httpStatus.NOT_FOUND,
       'This special menu is not found !',

@@ -1,21 +1,9 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, Types } from 'mongoose';
 import { RestaurantRegistrationStatus } from './restaurant.constant';
-import { TAddress, TRestaurant } from './restaurant.interface';
+import { TRestaurant } from './restaurant.interface';
 import AppError from '../../errors/AppError';
 import httpStatus from 'http-status';
 import { Moderator } from '../Moderator/moderator.model';
-
-const addressSchema = new Schema<TAddress>({
-  street: String,
-  city: String,
-  state: String,
-  country: String,
-  postalCode: String,
-  location: {
-    lat: Number,
-    lng: Number,
-  },
-});
 
 const restaurantSchema = new mongoose.Schema<TRestaurant>(
   {
@@ -31,19 +19,36 @@ const restaurantSchema = new mongoose.Schema<TRestaurant>(
       enum: RestaurantRegistrationStatus,
       default: 'active',
     },
-    address: addressSchema,
+    address: {
+      type: Schema.Types.ObjectId,
+      ref: 'Address',
+    },
     restaurantType: String,
     cuisine: String,
     owner: {
       type: Schema.Types.ObjectId,
       ref: 'Admin',
     },
+    pickUpAddress: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Address,',
+      },
+    ],
+    order: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Order',
+      },
+    ],
     moderator: [
       {
         type: Schema.Types.ObjectId,
         ref: 'Moderator',
       },
     ],
+    totalIncome: Number,
+    totalOrders: Number,
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',

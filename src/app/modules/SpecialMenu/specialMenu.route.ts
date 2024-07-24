@@ -26,7 +26,7 @@ router.patch(
 
 router.delete(
   '/:id',
-  auth(USER_ROLE.admin, USER_ROLE.superAdmin, USER_ROLE.moderator),
+  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
   SpecialMenuController.deleteSpecialMenu,
 );
 

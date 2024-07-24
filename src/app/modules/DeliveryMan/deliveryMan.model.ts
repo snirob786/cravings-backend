@@ -50,11 +50,6 @@ const vehicleSchema = new Schema<TVehicle>({
 
 const deliveryManSchema = new Schema<TDeliveryMan, DeliveryManModel>(
   {
-    id: {
-      type: String,
-      required: [true, 'ID is required'],
-      unique: true,
-    },
     user: {
       type: Schema.Types.ObjectId,
       required: [true, 'User id is required'],
@@ -80,10 +75,6 @@ const deliveryManSchema = new Schema<TDeliveryMan, DeliveryManModel>(
       unique: true,
     },
     contactNo: { type: String, required: [true, 'Contact number is required'] },
-    emergencyContactNo: {
-      type: String,
-      required: [true, 'Emergency contact number is required'],
-    },
     bloodGroup: {
       type: String,
       enum: {
@@ -94,23 +85,32 @@ const deliveryManSchema = new Schema<TDeliveryMan, DeliveryManModel>(
     presentAddress: {
       type: String,
       required: [true, 'Present address is required'],
+      ref: 'Address',
     },
     permanentAddress: {
       type: String,
       required: [true, 'Permanent address is required'],
+      ref: 'Address',
     },
     vehicle: {
       type: vehicleSchema,
       required: [true, 'Local guardian information is required'],
     },
     profileImg: { type: String },
+    order: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Order',
+      },
+    ],
     status: {
       type: String,
       default: 'in-progress',
     },
-    createdBy: {
+    restaurant: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      required: [true, 'Restaurant is required'],
+      ref: 'Restaurant',
     },
   },
   {

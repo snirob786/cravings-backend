@@ -1,29 +1,29 @@
 import { Types } from 'mongoose';
 
-export type TAddress = {
-  street: string;
-  city: string;
-  state: string;
-  country: string;
-  postalCode: string;
-  location: {
-    lat: number;
-    lng: number;
-  };
-};
-
 export type TRestaurant = {
   title: string;
   logo: String;
   status: 'active' | 'deleted' | 'inactive';
-  address: TAddress;
+  address: Types.ObjectId;
   restaurantType: String;
   cuisine: String;
   owner: Types.ObjectId;
+  pickUpAddress: [
+    {
+      type: Types.ObjectId;
+    },
+  ];
+  order: [
+    {
+      type: Types.ObjectId;
+    },
+  ];
   moderator: [
     {
       type: Types.ObjectId;
     },
   ];
+  totalIncome: number;
+  totalOrders: number;
   createdBy: Types.ObjectId;
 };

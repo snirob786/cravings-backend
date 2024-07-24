@@ -19,14 +19,14 @@ router.post(
 
 router.patch(
   '/:id',
-  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
+  auth(USER_ROLE.admin, USER_ROLE.superAdmin, USER_ROLE.moderator),
   validateRequest(RestaurantValidations.upadateResturantSchema),
   RestaurantController.updateRestaurant,
 );
 
 router.delete(
   '/:id',
-  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
+  auth(USER_ROLE.superAdmin),
   RestaurantController.deleteRestaurant,
 );
 

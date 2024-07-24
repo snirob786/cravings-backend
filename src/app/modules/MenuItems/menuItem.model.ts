@@ -9,7 +9,7 @@ const menuItemSchema = new mongoose.Schema<TMenuItem>(
   {
     title: {
       type: String,
-      required: [true, 'Category title is required'],
+      required: [true, 'Item title is required'],
     },
     status: {
       type: String,
@@ -35,9 +35,22 @@ const menuItemSchema = new mongoose.Schema<TMenuItem>(
       },
     ],
 
-    price: Number,
+    price: {
+      type: Number,
+      required: [true, 'Price is required'],
+    },
+    quantity: {
+      type: Number,
+      required: [true, 'Quantiy is required'],
+    },
     notes: String,
     description: String,
+    order: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Order',
+      },
+    ],
     restaurant: {
       type: Schema.Types.ObjectId,
       ref: 'Restaurant',

@@ -16,10 +16,22 @@ const specialMenuSchema = new mongoose.Schema<TSpecialMenu>(
       enum: SpecialMenuRegistrationStatus,
       default: 'active',
     },
+    platter: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Platter',
+      },
+    ],
     menuItem: [
       {
         type: Schema.Types.ObjectId,
         ref: 'MenuItem',
+      },
+    ],
+    order: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Order',
       },
     ],
     restaurant: {

@@ -9,7 +9,13 @@ import { TSuperAdmin } from './superAdmin.interface';
 import { SuperAdmin } from './superAdmin.model';
 
 const getAllSuperAdminsFromDB = async (query: Record<string, unknown>) => {
-  const adminQuery = new QueryBuilder(SuperAdmin.find().populate('user'), query)
+  const adminQuery = new QueryBuilder(
+    SuperAdmin.find()
+      .populate('user')
+      .populate('presentAddress')
+      .populate('permanentAddress'),
+    query,
+  )
     .search(AdminSearchableFields)
     .filter()
     .sort()
@@ -21,7 +27,11 @@ const getAllSuperAdminsFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleSuperAdminFromDB = async (id: string) => {
-  const result = await SuperAdmin.findById(id).populate('user');
+  const result = await SuperAdmin.findById(id)
+    .populate('user')
+    .populate('restaurant')
+    .populate('presentAddress')
+    .populate('permanentAddress');
   return result;
 };
 
@@ -58,21 +68,21 @@ const deleteSuperAdminFromDB = async (id: string) => {
   try {
     session.startTransaction();
 
-    const deletedAdmin = await SuperAdmin.findByIdAndUpdate(
+    const deletedSuperAdmin = await SuperAdmin.findByIdAndUpdate(
       id,
       { isDeleted: true },
       { new: true, session },
     );
 
-    if (!deletedAdmin) {
+    if (!deletedSuperAdmin) {
       throw new AppError(
         httpStatus.BAD_REQUEST,
-        'Failed to delete delivery man',
+        'Failed to delete super admin',
       );
     }
 
     // get user _id from deletedAdmin
-    const userId = deletedAdmin.user;
+    const userId = deletedSuperAdmin.user;
 
     const deletedUser = await User.findOneAndUpdate(
       userId,
@@ -87,7 +97,7 @@ const deleteSuperAdminFromDB = async (id: string) => {
     await session.commitTransaction();
     await session.endSession();
 
-    return deletedAdmin;
+    return deletedSuperAdmin;
   } catch (err: any) {
     await session.abortTransaction();
     await session.endSession();

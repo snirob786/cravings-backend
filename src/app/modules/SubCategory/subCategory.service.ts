@@ -47,6 +47,7 @@ const getAllSubCategoriesFromDB = async (query: Record<string, unknown>) => {
     SubCategory.find()
       .populate('restaurant')
       .populate('category')
+      .populate('order')
       .populate('createdBy')
       .populate('menuItem'),
     query,
@@ -64,8 +65,9 @@ const getSingleSubCategoryFromDB = async (id: string) => {
   const result = await SubCategory.findById(id)
     .populate('restaurant')
     .populate('category')
-    .populate('menuItem')
-    .populate('createdBy');
+    .populate('order')
+    .populate('createdBy')
+    .populate('menuItem');
 
   return result;
 };

@@ -62,7 +62,7 @@ const deleteSubCategory = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Sub Category is updated successfully',
+    message: 'Sub Category is deleted successfully',
     data: result,
   });
 });

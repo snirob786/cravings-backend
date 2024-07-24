@@ -11,6 +11,16 @@ import { CategoriesRoutes } from '../modules/Category/category.route';
 import { SubCategoriesRoutes } from '../modules/SubCategory/subCategory.route';
 import { MenuItemRoutes } from '../modules/MenuItems/menuItem.route';
 import { SpecialMenusRoutes } from '../modules/SpecialMenu/specialMenu.route';
+import { VariationsRoutes } from '../modules/Variation/variation.route';
+import { PlattersRoutes } from '../modules/Platter/platter.route';
+import { AddressRoutes } from '../modules/Address/address.route';
+import { OrderRoutes } from '../modules/Order/order.route';
+import { PaymentRoutes } from '../modules/Payment/payment.route';
+import { CustomerRoutes } from '../modules/Customer/customer.route';
+import { RatingRoutes } from '../modules/Rating/rating.route';
+import { DeliveriesRoutes } from '../modules/Delivery/delivery.route';
+import { ReportRoutes } from '../modules/Report/report.route';
+import { PaymentMethodRoutes } from '../modules/PaymentMethod/paymentMethod.route';
 
 const router = Router();
 
@@ -40,6 +50,10 @@ const moduleRoutes = [
     route: SuperAdminRoutes,
   },
   {
+    path: '/customers',
+    route: CustomerRoutes,
+  },
+  {
     path: '/restaurants',
     route: RestaurantRoutes,
   },
@@ -56,12 +70,48 @@ const moduleRoutes = [
     route: MenuItemRoutes,
   },
   {
+    path: '/variations',
+    route: VariationsRoutes,
+  },
+  {
+    path: '/platters',
+    route: PlattersRoutes,
+  },
+  {
+    path: '/addresses',
+    route: AddressRoutes,
+  },
+  {
+    path: '/orders',
+    route: OrderRoutes,
+  },
+  {
+    path: '/payments',
+    route: PaymentRoutes,
+  },
+  {
     path: '/special-menus',
     route: SpecialMenusRoutes,
   },
   {
     path: '/auth',
     route: AuthRoutes,
+  },
+  {
+    path: '/ratings',
+    route: RatingRoutes,
+  },
+  {
+    path: '/reports',
+    route: ReportRoutes,
+  },
+  {
+    path: '/deliveries',
+    route: DeliveriesRoutes,
+  },
+  {
+    path: '/payment-methods',
+    route: PaymentMethodRoutes,
   },
 ];
 

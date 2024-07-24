@@ -7,20 +7,24 @@ import { updateModeratorValidationSchema } from './moderator.validation';
 
 const router = express.Router();
 
-router.get('/:id', ModeratorControllers.getSingleModerator);
-
-router.patch(
-  '/:id',
-  validateRequest(updateModeratorValidationSchema),
-  ModeratorControllers.updateModerator,
-);
-
-router.delete('/:id', ModeratorControllers.deleteModerator);
-
 router.get(
   '/',
   auth(USER_ROLE.superAdmin, USER_ROLE.admin),
   ModeratorControllers.getAllModerators,
+);
+router.get('/:id', ModeratorControllers.getSingleModerator);
+
+router.patch(
+  '/:id',
+  auth(USER_ROLE.admin, USER_ROLE.superAdmin, USER_ROLE.moderator),
+  validateRequest(updateModeratorValidationSchema),
+  ModeratorControllers.updateModerator,
+);
+
+router.delete(
+  '/:id',
+  auth(USER_ROLE.superAdmin),
+  ModeratorControllers.deleteModerator,
 );
 
 export const ModeratorRoutes = router;

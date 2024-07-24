@@ -109,14 +109,13 @@ const getAllDeliveryMansFromDB = async (query: Record<string, unknown>) => {
   */
 
   const deliveryManQuery = new QueryBuilder(
-    DeliveryMan.find().populate('user'),
-    // .populate('admissionSemester')
-    // .populate({
-    //   path: 'academicDepartment',
-    //   populate: {
-    //     path: 'academicFaculty',
-    //   },
-    // }),
+    DeliveryMan.find()
+      .populate('user')
+      .populate('presentAddress')
+      .populate('permanentAddress')
+      .populate('order')
+      .populate('order')
+      .populate('restaurant'),
     query,
   )
     .search(deliveryManSearchableFields)
@@ -135,14 +134,13 @@ const getAllDeliveryMansFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleDeliveryManFromDB = async (id: string) => {
-  const result = await DeliveryMan.findById(id);
-  // .populate('admissionSemester')
-  // .populate({
-  //   path: 'academicDepartment',
-  //   populate: {
-  //     path: 'academicFaculty',
-  //   },
-  // });
+  const result = await DeliveryMan.findById(id)
+    .populate('user')
+    .populate('presentAddress')
+    .populate('permanentAddress')
+    .populate('order')
+    .populate('order')
+    .populate('restaurant');
   return result;
 };
 

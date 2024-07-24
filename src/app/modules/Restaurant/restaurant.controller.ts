@@ -64,7 +64,7 @@ const deleteRestaurant = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Restaurant is updated successfully',
+    message: 'Restaurant is deleted successfully',
     data: result,
   });
 });

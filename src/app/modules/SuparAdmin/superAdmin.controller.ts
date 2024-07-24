@@ -10,7 +10,7 @@ const getSingleSuperAdmin = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Admin is retrieved succesfully',
+    message: 'Super Admin is retrieved succesfully',
     data: result,
   });
 });
@@ -34,7 +34,7 @@ const updateSuperAdmin = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Admin is updated succesfully',
+    message: 'Super Admin is updated succesfully',
     data: result,
   });
 });
@@ -46,7 +46,7 @@ const deleteSuperAdmin = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Admin is deleted succesfully',
+    message: 'Super Admin is deleted succesfully',
     data: result,
   });
 });
