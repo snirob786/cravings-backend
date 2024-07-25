@@ -29,7 +29,6 @@ const getAllSuperAdminsFromDB = async (query: Record<string, unknown>) => {
 const getSingleSuperAdminFromDB = async (id: string) => {
   const result = await SuperAdmin.findById(id)
     .populate('user')
-    .populate('restaurant')
     .populate('presentAddress')
     .populate('permanentAddress');
   return result;
