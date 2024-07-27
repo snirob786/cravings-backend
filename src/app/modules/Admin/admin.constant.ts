@@ -17,7 +17,7 @@ export const AdminSearchableFields = [
   'email',
   'id',
   'contactNo',
-  'emergencyContactNo',
+  'fullName',
   'name.firstName',
   'name.lastName',
   'name.middleName',

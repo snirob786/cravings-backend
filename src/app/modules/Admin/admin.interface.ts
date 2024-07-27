@@ -31,6 +31,7 @@ export type TAdmin = {
   presentAddress: string;
   permanentAddress: string;
   profileImg?: string;
+  restaurant: Types.ObjectId;
   status: string;
 };
 

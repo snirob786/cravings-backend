@@ -70,6 +70,11 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
       ref: 'Address',
     },
     profileImg: { type: String },
+    restaurant: {
+      type: Schema.Types.ObjectId,
+      ref: 'Restaurant',
+    },
+
     status: {
       type: String,
       default: 'active',
