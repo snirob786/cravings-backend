@@ -9,31 +9,37 @@ import { TAdmin } from './admin.interface';
 import { Admin } from './admin.model';
 
 const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
-  const adminQuery = new QueryBuilder(
-    Admin.find()
-      .populate({
-        path: 'restaurant',
-        populate: {
-          path: 'moderator',
-          model: 'Moderator',
-        },
-      })
-      .populate('user'),
-    query,
-  )
+  console.log('query: ', query);
+  try {
+    const adminQuery = new QueryBuilder(
+      Admin.find()
+        .populate({
+          path: 'restaurant',
+          populate: {
+            path: 'moderator',
+            model: 'Moderator',
+          },
+        })
+        .populate('user'),
+      query,
+    )
 
-    .search(AdminSearchableFields)
-    .filter()
-    .sort()
-    .paginate()
-    .fields();
+      .search(AdminSearchableFields)
+      .filter()
+      .sort()
+      .paginate()
+      .fields();
 
-  const result: any = await adminQuery.modelQuery;
-  const totalAdmin = await Admin.countDocuments();
-  return {
-    result,
-    total: totalAdmin,
-  };
+    const result: any = await adminQuery.modelQuery;
+    const totalAdmin = await Admin.countDocuments();
+    return {
+      result,
+      total: totalAdmin,
+    };
+  } catch (error: any) {
+    console.log('get all error: ', error);
+    throw new Error(error);
+  }
 };
 
 const getSingleAdminFromDB = async (id: string) => {

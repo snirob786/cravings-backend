@@ -9,22 +9,31 @@ import { TModerator } from './moderator.interface';
 import { Moderator } from './moderator.model';
 
 const getAllModeratorsFromDB = async (query: Record<string, unknown>) => {
-  const moderatorQuery = new QueryBuilder(
-    Moderator.find()
-      .populate('restaurant')
-      .populate('user')
-      .populate('presentAddress')
-      .populate('permanentAddress'),
-    query,
-  )
-    .search(ModeratorSearchableFields)
-    .filter()
-    .sort()
-    .paginate()
-    .fields();
+  try {
+    const moderatorQuery = new QueryBuilder(
+      Moderator.find()
+        .populate('restaurant')
+        .populate('user')
+        .populate('presentAddress')
+        .populate('permanentAddress'),
+      query,
+    )
+      .search(ModeratorSearchableFields)
+      .filter()
+      .sort()
+      .paginate()
+      .fields();
 
-  const result = await moderatorQuery.modelQuery;
-  return result;
+    const result = await moderatorQuery.modelQuery;
+    const totalAdmin = await Moderator.countDocuments();
+    return {
+      result,
+      total: totalAdmin,
+    };
+  } catch (error: any) {
+    console.log('get all error: ', error);
+    throw new Error(error);
+  }
 };
 
 const getSingleModeratorFromDB = async (id: string) => {
