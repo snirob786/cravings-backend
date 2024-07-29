@@ -27,7 +27,6 @@ const registerUser = async (payload: TUser) => {
 const loginUser = async (payload: TLoginUser) => {
   // checking if the user is exist
   const user: any = await User.isUserExistsByCustomUsername(payload.username);
-
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
   }

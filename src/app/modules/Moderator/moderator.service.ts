@@ -25,10 +25,10 @@ const getAllModeratorsFromDB = async (query: Record<string, unknown>) => {
       .fields();
 
     const result = await moderatorQuery.modelQuery;
-    const totalAdmin = await Moderator.countDocuments();
+    const totalModerator = await Moderator.countDocuments();
     return {
       result,
-      total: totalAdmin,
+      total: totalModerator,
     };
   } catch (error: any) {
     console.log('get all error: ', error);

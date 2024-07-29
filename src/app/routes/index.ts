@@ -34,7 +34,7 @@ const moduleRoutes = [
     route: UserRoutes,
   },
   {
-    path: '/delivery-man',
+    path: '/delivery-mans',
     route: DeliveryManRoutes,
   },
   {
