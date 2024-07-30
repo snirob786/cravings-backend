@@ -4,56 +4,56 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { UserServices } from './user.service';
 
-const createDeliveryMan = catchAsync(async (req, res) => {
-  const { password, deliveryMan: deliveryManData } = req.body;
+// const createDeliveryMan = catchAsync(async (req, res) => {
+//   const { password, deliveryMan: deliveryManData } = req.body;
 
-  const result = await UserServices.createDeliveryManIntoDB(
-    req.file,
-    password,
-    deliveryManData,
-  );
+//   const result = await UserServices.createDeliveryManIntoDB(
+//     req.file,
+//     password,
+//     deliveryManData,
+//   );
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Delivery Man is created succesfully',
-    data: result,
-  });
-});
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: 'Delivery Man is created succesfully',
+//     data: result,
+//   });
+// });
 
-const createModerator = catchAsync(async (req, res) => {
-  const { password, moderator: moderatorData } = req.body;
+// const createModerator = catchAsync(async (req, res) => {
+//   const { password, moderator: moderatorData } = req.body;
 
-  const result = await UserServices.createModeratorIntoDB(
-    req.file,
-    password,
-    moderatorData,
-  );
+//   const result = await UserServices.createModeratorIntoDB(
+//     req.file,
+//     password,
+//     moderatorData,
+//   );
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Moderator is created succesfully',
-    data: result,
-  });
-});
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: 'Moderator is created succesfully',
+//     data: result,
+//   });
+// });
 
-const createAdmin = catchAsync(async (req, res) => {
-  const { password, admin: adminData } = req.body;
+// const createNormalUser = catchAsync(async (req, res) => {
+//   const { password, admin: adminData } = req.body;
 
-  const result = await UserServices.createAdminIntoDB(
-    req.file,
-    password,
-    adminData,
-  );
+//   const result = await UserServices.createNormalUserIntoDB(
+//     req.file,
+//     password,
+//     adminData,
+//   );
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Admin is created succesfully',
-    data: result,
-  });
-});
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: 'Admin is created succesfully',
+//     data: result,
+//   });
+// });
 const createSuperAdmin = catchAsync(async (req, res) => {
   const { password, admin: adminData } = req.body;
 
@@ -71,16 +71,16 @@ const createSuperAdmin = catchAsync(async (req, res) => {
   });
 });
 
-const getMe = catchAsync(async (req, res) => {
+const getSingleUser = catchAsync(async (req, res) => {
   // const token = req.headers.authorization;
 
   // if (!token) {
   //   throw new AppError(httpStatus.NOT_FOUND, 'Token not found !');
   // }
 
-  const { userId, role } = req.user;
+  const { id } = req.query;
 
-  const result = await UserServices.getMe(userId, role);
+  const result = await UserServices.getSingleUser(id as string);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -103,10 +103,10 @@ const changeStatus = catchAsync(async (req, res) => {
   });
 });
 export const UserControllers = {
-  createDeliveryMan,
-  createModerator,
-  createAdmin,
+  // createDeliveryMan,
+  // createModerator,
+  // createNormalUser,
   createSuperAdmin,
-  getMe,
+  getSingleUser,
   changeStatus,
 };

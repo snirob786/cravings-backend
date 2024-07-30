@@ -46,25 +46,13 @@ const orderSchema = new mongoose.Schema<TOrder>(
       type: Schema.Types.ObjectId,
       ref: 'SpecialMenu',
     },
-    admin: {
+    customer: {
       type: Schema.Types.ObjectId,
-      ref: 'Admin',
-    },
-    superAdmin: {
-      type: Schema.Types.ObjectId,
-      ref: 'SuperAdmin',
-    },
-    moderator: {
-      type: Schema.Types.ObjectId,
-      ref: 'Moderator',
+      ref: 'User',
     },
     deliveryMan: {
       type: Schema.Types.ObjectId,
       ref: 'DeliveryMan',
-    },
-    customer: {
-      type: Schema.Types.ObjectId,
-      ref: 'Customer',
     },
     delivery: {
       type: Schema.Types.ObjectId,

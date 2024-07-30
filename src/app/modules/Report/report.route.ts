@@ -11,7 +11,7 @@ router.get(
   '/',
   auth(
     USER_ROLE.deliveryMan,
-    USER_ROLE.customer,
+    USER_ROLE.user,
     USER_ROLE.admin,
     USER_ROLE.moderator,
     USER_ROLE.superAdmin,
@@ -22,7 +22,7 @@ router.get(
   '/:id',
   auth(
     USER_ROLE.deliveryMan,
-    USER_ROLE.customer,
+    USER_ROLE.user,
     USER_ROLE.admin,
     USER_ROLE.moderator,
     USER_ROLE.superAdmin,
@@ -34,7 +34,7 @@ router.post(
   '/create',
   auth(
     USER_ROLE.deliveryMan,
-    USER_ROLE.customer,
+    USER_ROLE.user,
     USER_ROLE.admin,
     USER_ROLE.moderator,
   ),
@@ -46,7 +46,7 @@ router.patch(
   '/:id',
   auth(
     USER_ROLE.deliveryMan,
-    USER_ROLE.customer,
+    USER_ROLE.user,
     USER_ROLE.admin,
     USER_ROLE.moderator,
   ),

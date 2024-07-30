@@ -14,7 +14,7 @@ router.get(
     USER_ROLE.deliveryMan,
     USER_ROLE.superAdmin,
     USER_ROLE.deliveryMan,
-    USER_ROLE.customer,
+    USER_ROLE.user,
   ),
   DeliveryManControllers.getAllDeliveryMans,
 );
@@ -26,7 +26,7 @@ router.get(
     USER_ROLE.deliveryMan,
     USER_ROLE.superAdmin,
     USER_ROLE.deliveryMan,
-    USER_ROLE.customer,
+    USER_ROLE.user,
   ),
   DeliveryManControllers.getSingleDeliveryMan,
 );

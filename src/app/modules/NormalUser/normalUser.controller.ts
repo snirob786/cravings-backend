@@ -1,11 +1,11 @@
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import { CustomerServices } from './customer.service';
+import { NormalUserServices } from './normalUser.service';
 
-const getSingleCustomer = catchAsync(async (req, res) => {
+const getSingleNormalUser = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await CustomerServices.getSingleCustomerFromDB(id);
+  const result = await NormalUserServices.getSingleCustomerFromDB(id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -15,8 +15,8 @@ const getSingleCustomer = catchAsync(async (req, res) => {
   });
 });
 
-const getAllCustomers = catchAsync(async (req, res) => {
-  const result = await CustomerServices.getAllCustomersFromDB(req.query);
+const getAllNormalUsers = catchAsync(async (req, res) => {
+  const result = await NormalUserServices.getAllCustomersFromDB(req.query);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -26,10 +26,10 @@ const getAllCustomers = catchAsync(async (req, res) => {
   });
 });
 
-const updateCustomer = catchAsync(async (req, res) => {
+const updateNormalUser = catchAsync(async (req, res) => {
   const { id } = req.params;
   const { admin } = req.body;
-  const result = await CustomerServices.updateCustomerIntoDB(id, admin);
+  const result = await NormalUserServices.updateCustomerIntoDB(id, admin);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -39,9 +39,9 @@ const updateCustomer = catchAsync(async (req, res) => {
   });
 });
 
-const deleteCustomer = catchAsync(async (req, res) => {
+const deleteNormalUser = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await CustomerServices.deleteCustomerFromDB(id);
+  const result = await NormalUserServices.deleteCustomerFromDB(id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -51,9 +51,9 @@ const deleteCustomer = catchAsync(async (req, res) => {
   });
 });
 
-export const CustomerControllers = {
-  getAllCustomers,
-  getSingleCustomer,
-  deleteCustomer,
-  updateCustomer,
+export const NormalUserControllers = {
+  getAllNormalUsers,
+  getSingleNormalUser,
+  deleteNormalUser,
+  updateNormalUser,
 };

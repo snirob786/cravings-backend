@@ -12,41 +12,59 @@ import { createDeliveryManValidationSchema } from '../DeliveryMan/deliveryMan.va
 
 const router = express.Router();
 
-router.post(
-  '/create-delivery-man',
-  // auth(USER_ROLE.admin),
-  // upload.single('file'),
-  (req: Request, res: Response, next: NextFunction) => {
-    req.body = JSON.parse(req.body.data);
-    next();
-  },
-  validateRequest(createDeliveryManValidationSchema),
-  UserControllers.createDeliveryMan,
-);
-
-router.post(
-  '/create-moderator',
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
-  // upload.single('file'),
-  (req: Request, res: Response, next: NextFunction) => {
-    // req.body = JSON.parse(req.body.data);
-    next();
-  },
-  validateRequest(createModeratorValidationSchema),
-  UserControllers.createModerator,
-);
-
-router.post(
-  '/create-admin',
+router.get(
+  '/getAllUsers',
   auth(USER_ROLE.superAdmin),
-  // upload.single('file'),
-  (req: Request, res: Response, next: NextFunction) => {
-    // req.body = JSON.parse(req.body.data);
-    next();
-  },
-  validateRequest(createAdminValidationSchema),
-  UserControllers.createAdmin,
+  UserControllers.getSingleUser,
 );
+
+router.get(
+  '/:id',
+  auth(
+    USER_ROLE.deliveryMan,
+    USER_ROLE.user,
+    USER_ROLE.admin,
+    USER_ROLE.superAdmin,
+    USER_ROLE.moderator,
+  ),
+  UserControllers.getSingleUser,
+);
+
+// router.post(
+//   '/create-delivery-man',
+//   // auth(USER_ROLE.admin),
+//   // upload.single('file'),
+//   (req: Request, res: Response, next: NextFunction) => {
+//     req.body = JSON.parse(req.body.data);
+//     next();
+//   },
+//   validateRequest(createDeliveryManValidationSchema),
+//   UserControllers.createDeliveryMan,
+// );
+
+// router.post(
+//   '/create-moderator',
+//   auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+//   // upload.single('file'),
+//   (req: Request, res: Response, next: NextFunction) => {
+//     // req.body = JSON.parse(req.body.data);
+//     next();
+//   },
+//   validateRequest(createModeratorValidationSchema),
+//   UserControllers.createModerator,
+// );
+
+// router.post(
+//   '/create-admin',
+//   auth(USER_ROLE.superAdmin),
+//   // upload.single('file'),
+//   (req: Request, res: Response, next: NextFunction) => {
+//     // req.body = JSON.parse(req.body.data);
+//     next();
+//   },
+//   validateRequest(createAdminValidationSchema),
+//   UserControllers.createNormalUser,
+// );
 router.post(
   '/create-super-admin',
   // upload.single('file'),
@@ -64,18 +82,6 @@ router.post(
   auth(USER_ROLE.admin, USER_ROLE.superAdmin),
   validateRequest(UserValidation.changeStatusValidationSchema),
   UserControllers.changeStatus,
-);
-
-router.get(
-  '/me',
-  auth(
-    USER_ROLE.deliveryMan,
-    USER_ROLE.customer,
-    USER_ROLE.admin,
-    USER_ROLE.superAdmin,
-    USER_ROLE.moderator,
-  ),
-  UserControllers.getMe,
 );
 
 export const UserRoutes = router;

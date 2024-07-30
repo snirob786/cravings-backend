@@ -1,4 +1,4 @@
-import { TBloodGroup, TGender } from './customer.interface';
+import { TBloodGroup, TGender } from './normalUser.interface';
 
 export const Gender: TGender[] = ['male', 'female', 'other'];
 
@@ -13,7 +13,7 @@ export const BloodGroup: TBloodGroup[] = [
   'O-',
 ];
 
-export const CustomerSearchableFields = [
+export const NormalUserSearchableFields = [
   'email',
   'id',
   'contactNo',

@@ -18,7 +18,7 @@ export type TUserName = {
   lastName: string;
 };
 
-export type TCustomer = {
+export type TNormalUser = {
   // id: string;
   user: Types.ObjectId;
   designation: string;
@@ -28,8 +28,8 @@ export type TCustomer = {
   email: string;
   contactNo: string;
   bloodGroup?: TBloodGroup;
-  presentAddress: string;
-  permanentAddress: string;
+  presentAddress: Types.ObjectId;
+  permanentAddress: Types.ObjectId;
   order: [
     {
       type: Types.ObjectId;
@@ -41,10 +41,10 @@ export type TCustomer = {
     },
   ];
   profileImg?: string;
-  status: string;
   restaurant: Types.ObjectId;
+  status: string;
 };
 
-export interface CustomerModel extends Model<TCustomer> {
-  isUserExists(id: string): Promise<TCustomer | null>;
+export interface NormalUserModel extends Model<TNormalUser> {
+  isUserExists(id: string): Promise<TNormalUser | null>;
 }

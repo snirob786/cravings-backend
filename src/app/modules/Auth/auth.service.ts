@@ -8,19 +8,70 @@ import { User } from '../user/user.model';
 import { TLoginUser } from './auth.interface';
 import { createToken } from './auth.utils';
 import { TUser } from '../user/user.interface';
+import { TNormalUser } from '../NormalUser/normalUser.interface';
+import { USER_ROLE } from '../user/user.constant';
+import mongoose from 'mongoose';
+import { NormalUser } from '../NormalUser/normalUser.model';
 
-const registerUser = async (payload: TUser) => {
+const registerUser = async (
+  file: any,
+  password: string,
+  payload: TNormalUser,
+) => {
+  // create a user object
+  const userData: Partial<TUser> = {};
+
+  //if password is not given , use deafult password
+  userData.password = password || (config.default_password as string);
+
+  //set student role
+  userData.role = USER_ROLE.user;
+  //set admin email
+  userData.email = payload.email;
+  const session = await mongoose.startSession();
+
   try {
-    // checking if the user is exist
-    const user = await User.findOne({ email: payload.email });
+    session.startTransaction();
+    //set  generated id
+    // userData.id = await generateAdminId();
 
-    if (user) {
-      throw new AppError(httpStatus.NOT_FOUND, 'This user is already exist !');
+    // const imageName = `${userData.id}${payload?.name?.firstName}`;
+    // const path = file?.path;
+    // //send image to cloudinary
+    // const { secure_url } = await sendImageToCloudinary(imageName, path);
+
+    // create a user (transaction-1)
+    const newUser = await User.create([userData], { session });
+
+    //create a admin
+    if (!newUser.length) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create admin');
     }
-    const registerUser = await User.create(payload);
-    return registerUser;
-  } catch (err) {
-    throw new Error(err as string);
+    // set id , _id as user
+    // payload.id = newUser[0].id;
+    payload.user = newUser[0]._id; //reference _id
+    // payload.profileImg = secure_url;
+
+    // create a admin (transaction-2)
+    const newNormalUser = await NormalUser.create([payload], { session });
+
+    if (!newNormalUser.length) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create admin');
+    }
+    const newUpdateUser = await User.updateOne(
+      { _id: newUser[0]?._id },
+      { admin: newNormalUser[0]._id },
+      { session },
+    );
+
+    await session.commitTransaction();
+    await session.endSession();
+
+    return newNormalUser;
+  } catch (err: any) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw new Error(err);
   }
 };
 

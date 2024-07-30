@@ -1,7 +1,7 @@
 import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
-import { CustomerControllers } from './customer.controller';
-import { updateCustomerValidationSchema } from './customer.validation';
+import { NormalUserControllers } from './normalUser.controller';
+import { updateCustomerValidationSchema } from './normalUser.validation';
 import auth from '../../middlewares/auth';
 import { USER_ROLE } from '../user/user.constant';
 
@@ -14,9 +14,9 @@ router.get(
     USER_ROLE.admin,
     USER_ROLE.moderator,
     USER_ROLE.deliveryMan,
-    USER_ROLE.customer,
+    USER_ROLE.user,
   ),
-  CustomerControllers.getAllCustomers,
+  NormalUserControllers.getAllNormalUsers,
 );
 
 router.get(
@@ -26,22 +26,22 @@ router.get(
     USER_ROLE.admin,
     USER_ROLE.moderator,
     USER_ROLE.deliveryMan,
-    USER_ROLE.customer,
+    USER_ROLE.user,
   ),
-  CustomerControllers.getSingleCustomer,
+  NormalUserControllers.getSingleNormalUser,
 );
 
 router.patch(
   '/:id',
-  auth(USER_ROLE.superAdmin, USER_ROLE.customer),
+  auth(USER_ROLE.superAdmin, USER_ROLE.user),
   validateRequest(updateCustomerValidationSchema),
-  CustomerControllers.updateCustomer,
+  NormalUserControllers.updateNormalUser,
 );
 
 router.delete(
   '/:id',
-  auth(USER_ROLE.superAdmin, USER_ROLE.customer),
-  CustomerControllers.deleteCustomer,
+  auth(USER_ROLE.superAdmin, USER_ROLE.user),
+  NormalUserControllers.deleteNormalUser,
 );
 
-export const CustomerRoutes = router;
+export const NormalUserRoutes = router;

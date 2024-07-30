@@ -10,7 +10,7 @@ const router = express.Router();
 router.get(
   '/',
   auth(
-    USER_ROLE.customer,
+    USER_ROLE.user,
     USER_ROLE.deliveryMan,
     USER_ROLE.moderator,
     USER_ROLE.admin,
@@ -21,7 +21,7 @@ router.get(
 router.get(
   '/:id',
   auth(
-    USER_ROLE.customer,
+    USER_ROLE.user,
     USER_ROLE.deliveryMan,
     USER_ROLE.moderator,
     USER_ROLE.admin,
@@ -32,7 +32,7 @@ router.get(
 
 router.post(
   '/create',
-  auth(USER_ROLE.customer),
+  auth(USER_ROLE.user),
   validateRequest(OrderValidations.createOrderValidationSchema),
   OrderController.createOrder,
 );
@@ -40,7 +40,7 @@ router.post(
 router.patch(
   '/:id',
   auth(
-    USER_ROLE.customer,
+    USER_ROLE.user,
     USER_ROLE.deliveryMan,
     USER_ROLE.moderator,
     USER_ROLE.admin,

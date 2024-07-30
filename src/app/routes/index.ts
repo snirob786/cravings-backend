@@ -16,7 +16,7 @@ import { PlattersRoutes } from '../modules/Platter/platter.route';
 import { AddressRoutes } from '../modules/Address/address.route';
 import { OrderRoutes } from '../modules/Order/order.route';
 import { PaymentRoutes } from '../modules/Payment/payment.route';
-import { CustomerRoutes } from '../modules/Customer/customer.route';
+import { NormalUserRoutes } from '../modules/NormalUser/normalUser.route';
 import { RatingRoutes } from '../modules/Rating/rating.route';
 import { DeliveriesRoutes } from '../modules/Delivery/delivery.route';
 import { ReportRoutes } from '../modules/Report/report.route';
@@ -51,7 +51,7 @@ const moduleRoutes = [
   },
   {
     path: '/customers',
-    route: CustomerRoutes,
+    route: NormalUserRoutes,
   },
   {
     path: '/restaurants',

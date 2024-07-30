@@ -12,7 +12,7 @@ router.get('/:id', PaymentController.getSinglePayment);
 
 router.post(
   '/create',
-  auth(USER_ROLE.superAdmin, USER_ROLE.customer),
+  auth(USER_ROLE.superAdmin, USER_ROLE.user),
   validateRequest(PaymentValidations.createPaymentValidationSchema),
   PaymentController.createPayment,
 );
@@ -23,7 +23,7 @@ router.patch(
     USER_ROLE.admin,
     USER_ROLE.superAdmin,
     USER_ROLE.moderator,
-    USER_ROLE.customer,
+    USER_ROLE.user,
   ),
   validateRequest(PaymentValidations.upadatePaymentSchema),
   PaymentController.updatePayment,

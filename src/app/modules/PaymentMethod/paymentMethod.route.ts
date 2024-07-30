@@ -17,7 +17,7 @@ router.get(
   auth(
     USER_ROLE.admin,
     USER_ROLE.deliveryMan,
-    USER_ROLE.customer,
+    USER_ROLE.user,
     USER_ROLE.moderator,
     USER_ROLE.superAdmin,
   ),
@@ -26,21 +26,21 @@ router.get(
 
 router.post(
   '/create',
-  auth(USER_ROLE.deliveryMan, USER_ROLE.customer),
+  auth(USER_ROLE.deliveryMan, USER_ROLE.user),
   validateRequest(PaymentMethodValidations.createPaymentMethodValidationSchema),
   PaymentMethodController.createPaymentMethod,
 );
 
 router.patch(
   '/:id',
-  auth(USER_ROLE.deliveryMan, USER_ROLE.customer),
+  auth(USER_ROLE.deliveryMan, USER_ROLE.user),
   validateRequest(PaymentMethodValidations.upadatePaymentMethodSchema),
   PaymentMethodController.updatePaymentMethod,
 );
 
 router.delete(
   '/:id',
-  auth(USER_ROLE.deliveryMan, USER_ROLE.customer),
+  auth(USER_ROLE.deliveryMan, USER_ROLE.user),
   PaymentMethodController.deletePaymentMethod,
 );
 

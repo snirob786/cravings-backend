@@ -30,7 +30,7 @@ const userSchema = new Schema<TUser, UserModel>(
         USER_ROLE.deliveryMan,
         USER_ROLE.moderator,
         USER_ROLE.superAdmin,
-        USER_ROLE.customer,
+        USER_ROLE.user,
       ],
     },
     superAdmin: {

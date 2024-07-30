@@ -12,14 +12,14 @@ router.get('/:id', RatingController.getSingleRating);
 
 router.post(
   '/create',
-  auth(USER_ROLE.deliveryMan, USER_ROLE.customer),
+  auth(USER_ROLE.deliveryMan, USER_ROLE.user),
   validateRequest(RatingValidations.createRatingValidationSchema),
   RatingController.createRating,
 );
 
 router.patch(
   '/:id',
-  auth(USER_ROLE.superAdmin, USER_ROLE.customer, USER_ROLE.deliveryMan),
+  auth(USER_ROLE.superAdmin, USER_ROLE.user, USER_ROLE.deliveryMan),
   validateRequest(RatingValidations.upadateRatingSchema),
   RatingController.updateRating,
 );

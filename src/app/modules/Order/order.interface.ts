@@ -27,8 +27,6 @@ export type TOrder = {
   category: Types.ObjectId;
   subCategory: Types.ObjectId;
   specialMenu: Types.ObjectId;
-  admin: Types.ObjectId;
-  superAdmin: Types.ObjectId;
   moderator: Types.ObjectId;
   deliveryMan: Types.ObjectId;
   customer: Types.ObjectId;

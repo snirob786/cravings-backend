@@ -14,7 +14,7 @@ router.get(
     USER_ROLE.admin,
     USER_ROLE.moderator,
     USER_ROLE.deliveryMan,
-    USER_ROLE.customer,
+    USER_ROLE.user,
   ),
   DeliveryController.getAllDeliveries,
 );
@@ -25,21 +25,21 @@ router.get(
     USER_ROLE.admin,
     USER_ROLE.moderator,
     USER_ROLE.deliveryMan,
-    USER_ROLE.customer,
+    USER_ROLE.user,
   ),
   DeliveryController.getSingleDelivery,
 );
 
 router.post(
   '/create',
-  auth(USER_ROLE.customer, USER_ROLE.superAdmin),
+  auth(USER_ROLE.user, USER_ROLE.superAdmin),
   validateRequest(DeliveryValidations.createDeliveryValidationSchema),
   DeliveryController.createDelivery,
 );
 
 router.patch(
   '/:id',
-  auth(USER_ROLE.customer, USER_ROLE.superAdmin),
+  auth(USER_ROLE.user, USER_ROLE.superAdmin),
   validateRequest(DeliveryValidations.upadateDeliverySchema),
   DeliveryController.updateDelivery,
 );

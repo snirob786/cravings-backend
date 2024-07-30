@@ -22,6 +22,8 @@ import { SuperAdmin } from '../SuparAdmin/superAdmin.model';
 import { TSuperAdmin } from '../SuparAdmin/superAdmin.interface';
 import { USER_ROLE } from './user.constant';
 import { Restaurant } from '../Restaurant/restaurant.model';
+import { NormalUser } from '../NormalUser/normalUser.model';
+import { TNormalUser } from '../NormalUser/normalUser.interface';
 
 const createDeliveryManIntoDB = async (
   file: any,
@@ -169,10 +171,10 @@ const createModeratorIntoDB = async (
   }
 };
 
-const createAdminIntoDB = async (
+const createNormalUserIntoDB = async (
   file: any,
   password: string,
-  payload: TAdmin,
+  payload: TNormalUser,
 ) => {
   // create a user object
   const userData: Partial<TUser> = {};
@@ -209,21 +211,21 @@ const createAdminIntoDB = async (
     // payload.profileImg = secure_url;
 
     // create a admin (transaction-2)
-    const newAdmin = await Admin.create([payload], { session });
+    const newNormalUser = await NormalUser.create([payload], { session });
 
-    if (!newAdmin.length) {
+    if (!newNormalUser.length) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create admin');
     }
     const newUpdateUser = await User.updateOne(
       { _id: newUser[0]?._id },
-      { admin: newAdmin[0]._id },
+      { admin: newNormalUser[0]._id },
       { session },
     );
 
     await session.commitTransaction();
     await session.endSession();
 
-    return newAdmin;
+    return newNormalUser;
   } catch (err: any) {
     await session.abortTransaction();
     await session.endSession();
@@ -294,25 +296,11 @@ const createSuperAdminIntoDB = async (
   }
 };
 
-const getMe = async (userId: string, role: string) => {
+const getSingleUser = async (id: string) => {
   // const decoded = verifyToken(token, config.jwt_access_secret as string);
   // const { userId, role } = decoded;
 
-  let result = null;
-  if (role === USER_ROLE.deliveryMan) {
-    result = await DeliveryMan.findOne({ id: userId }).populate('user');
-  }
-  if (role === 'admin') {
-    result = await Admin.findOne({ id: userId }).populate('user');
-  }
-
-  if (role === 'superAdmin') {
-    result = await SuperAdmin.findOne({ id: userId }).populate('user');
-  }
-
-  if (role === 'faculty') {
-    result = await Moderator.findOne({ id: userId }).populate('user');
-  }
+  let result = await User.findById(id);
 
   return result;
 };
@@ -327,8 +315,8 @@ const changeStatus = async (id: string, payload: { status: string }) => {
 export const UserServices = {
   createDeliveryManIntoDB,
   createModeratorIntoDB,
-  createAdminIntoDB,
+  createNormalUserIntoDB,
   createSuperAdminIntoDB,
-  getMe,
+  getSingleUser,
   changeStatus,
 };

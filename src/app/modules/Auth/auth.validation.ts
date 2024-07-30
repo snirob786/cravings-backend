@@ -4,14 +4,18 @@ const registerValidationSchema = z.object({
   body: z.object({
     username: z.string({ required_error: 'Username is required.' }),
     email: z.string().email(),
-    password: z.string({ required_error: 'Password is required' }),
-    role: z.enum(['user', 'admin']),
+    password: z
+      .string({ required_error: 'Password is required' })
+      .min(8, { message: 'Password can not be less than 8 characters' }),
+    role: z.enum(['user']),
   }),
 });
 const loginValidationSchema = z.object({
   body: z.object({
     username: z.string({ required_error: 'Username is required.' }),
-    password: z.string({ required_error: 'Password is required' }),
+    password: z
+      .string({ required_error: 'Password is required' })
+      .min(8, { message: 'Password can not be less than 8 characters' }),
   }),
 });
 

@@ -1,6 +1,10 @@
 import { Schema, Types, model } from 'mongoose';
-import { BloodGroup, Gender } from './customer.constant';
-import { CustomerModel, TCustomer, TUserName } from './customer.interface';
+import { BloodGroup, Gender } from './normalUser.constant';
+import {
+  NormalUserModel,
+  TNormalUser,
+  TUserName,
+} from './normalUser.interface';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -21,7 +25,7 @@ const userNameSchema = new Schema<TUserName>({
   },
 });
 
-const customerSchema = new Schema<TCustomer, CustomerModel>(
+const normalUserSchema = new Schema<TNormalUser, NormalUserModel>(
   {
     user: {
       type: Schema.Types.ObjectId,
@@ -76,12 +80,6 @@ const customerSchema = new Schema<TCustomer, CustomerModel>(
       },
     ],
     profileImg: { type: String },
-    order: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Order',
-      },
-    ],
     status: {
       type: String,
       default: 'active',
@@ -102,7 +100,7 @@ const customerSchema = new Schema<TCustomer, CustomerModel>(
 );
 
 // generating full name
-customerSchema.virtual('fullName').get(function () {
+normalUserSchema.virtual('fullName').get(function () {
   return (
     this?.name?.firstName +
     ' ' +
@@ -113,29 +111,29 @@ customerSchema.virtual('fullName').get(function () {
 });
 
 // filter out deleted documents
-customerSchema.pre('find', function (next) {
+normalUserSchema.pre('find', function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
 
-customerSchema.pre('findOne', function (next) {
+normalUserSchema.pre('findOne', function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
 
-customerSchema.pre('aggregate', function (next) {
+normalUserSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
   next();
 });
 
 //checking if user is already exist!
-customerSchema.statics.isUserExists = async function (id: string) {
-  const existingUser = await Customer.findOne({ _id: id });
+normalUserSchema.statics.isUserExists = async function (id: string) {
+  const existingUser = await NormalUser.findOne({ _id: id });
   console.log('🚀 ~ existingUser:', existingUser);
   return existingUser;
 };
 
-export const Customer = model<TCustomer, CustomerModel>(
-  'Customer',
-  customerSchema,
+export const NormalUser = model<TNormalUser, NormalUserModel>(
+  'NormalUser',
+  normalUserSchema,
 );
