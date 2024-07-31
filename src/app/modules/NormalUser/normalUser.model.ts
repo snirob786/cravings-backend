@@ -33,9 +33,9 @@ const normalUserSchema = new Schema<TNormalUser, NormalUserModel>(
       unique: true,
       ref: 'User',
     },
-    designation: {
+    role: {
       type: String,
-      required: [true, 'Designation is required'],
+      required: [true, 'Role is required'],
     },
     name: {
       type: userNameSchema,
@@ -64,13 +64,11 @@ const normalUserSchema = new Schema<TNormalUser, NormalUserModel>(
       },
     },
     presentAddress: {
-      type: String,
-      required: [true, 'Present address is required'],
+      type: Schema.Types.ObjectId,
       ref: 'Address',
     },
     permanentAddress: {
-      type: String,
-      required: [true, 'Permanent address is required'],
+      type: Schema.Types.ObjectId,
       ref: 'Address',
     },
     deliveryAddress: [

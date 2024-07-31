@@ -6,7 +6,7 @@ import { RestaurantRoutes } from '../modules/Restaurant/restaurant.route';
 import { DeliveryManRoutes } from '../modules/DeliveryMan/deliveryMan.route';
 import { UserRoutes } from '../modules/user/user.route';
 import { HomeRoutes } from '../modules/Home/home.route';
-import { SuperAdminRoutes } from '../modules/SuparAdmin/superAdmin.route';
+import { SuperAdminRoutes } from '../modules/SuperAdmin/superAdmin.route';
 import { CategoriesRoutes } from '../modules/Category/category.route';
 import { SubCategoriesRoutes } from '../modules/SubCategory/subCategory.route';
 import { MenuItemRoutes } from '../modules/MenuItems/menuItem.route';

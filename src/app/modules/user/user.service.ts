@@ -18,8 +18,8 @@ import { User } from './user.model';
 //   generateFacultyId,
 //   generateStudentId,
 // } from './user.utils';
-import { SuperAdmin } from '../SuparAdmin/superAdmin.model';
-import { TSuperAdmin } from '../SuparAdmin/superAdmin.interface';
+import { SuperAdmin } from '../SuperAdmin/superAdmin.model';
+import { TSuperAdmin } from '../SuperAdmin/superAdmin.interface';
 import { USER_ROLE } from './user.constant';
 import { Restaurant } from '../Restaurant/restaurant.model';
 import { NormalUser } from '../NormalUser/normalUser.model';

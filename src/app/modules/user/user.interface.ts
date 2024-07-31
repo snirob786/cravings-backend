@@ -11,6 +11,8 @@ export interface TUser {
   superAdmin: Types.ObjectId;
   admin: Types.ObjectId;
   moderator: Types.ObjectId;
+  user: Types.ObjectId;
+  deliveryMan: Types.ObjectId;
   addresses: [
     {
       type: Types.ObjectId;
@@ -21,7 +23,6 @@ export interface TUser {
       type: Types.ObjectId;
     },
   ];
-  deliveryMan: Types.ObjectId;
   status: 'in-progress' | 'blocked' | 'active';
   isDeleted: boolean;
 }

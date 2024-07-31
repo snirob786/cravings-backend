@@ -60,7 +60,7 @@ const registerUser = async (
     }
     const newUpdateUser = await User.updateOne(
       { _id: newUser[0]?._id },
-      { admin: newNormalUser[0]._id },
+      { user: newNormalUser[0]._id },
       { session },
     );
 
@@ -96,6 +96,7 @@ const loginUser = async (payload: TLoginUser) => {
     admin: user.admin,
     moderator: user.moderator,
     deliveryMan: user.deliveryMan,
+    user: user.user,
   };
 
   const accessToken = createToken(

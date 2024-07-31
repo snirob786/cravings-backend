@@ -21,7 +21,7 @@ export type TUserName = {
 export type TNormalUser = {
   // id: string;
   user: Types.ObjectId;
-  designation: string;
+  role: string;
   name: TUserName;
   gender: TGender;
   dateOfBirth?: Date;
@@ -30,11 +30,6 @@ export type TNormalUser = {
   bloodGroup?: TBloodGroup;
   presentAddress: Types.ObjectId;
   permanentAddress: Types.ObjectId;
-  order: [
-    {
-      type: Types.ObjectId;
-    },
-  ];
   deliveryAddress: [
     {
       type: Types.ObjectId;
