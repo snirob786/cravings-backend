@@ -1,14 +1,13 @@
 import { Types } from 'mongoose';
 
-export type TPayment = {
-  status: 'pending' | 'paid';
-  transactionId: string;
-  referenceId: string;
-  paymentMethod: Types.ObjectId;
-  amount: number;
-  paymentPhone: string;
-  paymentEmail: string;
-  order: Types.ObjectId;
-  restaurant: Types.ObjectId;
+export type TUserPackage = {
+  status: 'inactive' | 'active';
+  title: string;
+  price: number;
+  validityDays: number;
+  menuItemLimit: number;
+  specialMenuLimit: number;
+  platterLimit: number;
+  moderatorLimit: number;
   createdBy: Types.ObjectId;
 };

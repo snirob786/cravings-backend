@@ -1,27 +1,37 @@
 import { z } from 'zod';
-import { PaymentRegistrationStatus } from './payment.constant';
+import { UserPackageStatus } from './userPackage.constant';
 
-const createPaymentValidationSchema = z.object({
+const createUserPackageValidationSchema = z.object({
   body: z.object({
     title: z.string(),
+    price: z.number(),
+    validityDays: z.number(),
+    menuItemLimit: z.number(),
+    specialMenuLimit: z.number(),
+    platterLimit: z.number(),
+    moderatorLimit: z.number(),
     status: z
-      .enum([...(PaymentRegistrationStatus as [string, ...string[]])])
+      .enum([...(UserPackageStatus as [string, ...string[]])])
       .optional(),
-    restaurant: z.string(),
   }),
 });
 
-const upadatePaymentSchema = z.object({
+const upadateUserPackageSchema = z.object({
   body: z.object({
     title: z.string().optional(),
+    price: z.number(),
+    validityDays: z.number(),
+    menuItemLimit: z.number(),
+    specialMenuLimit: z.number(),
+    platterLimit: z.number(),
+    moderatorLimit: z.number(),
     status: z
-      .enum([...(PaymentRegistrationStatus as [string, ...string[]])])
+      .enum([...(UserPackageStatus as [string, ...string[]])])
       .optional(),
-    restaurant: z.string().optional(),
   }),
 });
 
-export const PaymentValidations = {
-  createPaymentValidationSchema,
-  upadatePaymentSchema,
+export const UserPackageValidations = {
+  createUserPackageValidationSchema,
+  upadateUserPackageSchema,
 };

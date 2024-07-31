@@ -3,29 +3,31 @@ import httpStatus from 'http-status';
 import mongoose from 'mongoose';
 import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
-import { PaymentStatus } from './payment.constant';
-import { TPayment } from './payment.interface';
-import { Payment } from './payment.model';
+import { TUserPackage } from './userPackage.interface';
+import { UserPackage } from './userPackage.model';
 import { Admin } from '../Admin/admin.model';
 import { User } from '../user/user.model';
 
-const createPaymentIntoDB = async (payload: any) => {
+const createUserPackageIntoDB = async (payload: any) => {
   try {
-    const result = await Payment.create(payload);
+    const result = await UserPackage.create(payload);
     return result;
   } catch (err: any) {
     throw new Error(err);
   }
 };
 
-const getAllPaymentsFromDB = async (query: Record<string, unknown>) => {
+const getAllUserPackagesFromDB = async (query: Record<string, unknown>) => {
   try {
     const batchQuery = new QueryBuilder(
-      Payment.find()
-        .populate('restaurant')
-        .populate('createdBy')
-        .populate('order')
-        .populate('paymentMethod'),
+      UserPackage.find().populate({
+        path: 'createdBy',
+        model: 'User',
+        populate: {
+          path: 'superAdmin',
+          model: 'SuperAdmin',
+        },
+      }),
       query,
     )
       .filter()
@@ -40,13 +42,16 @@ const getAllPaymentsFromDB = async (query: Record<string, unknown>) => {
   }
 };
 
-const getSinglePaymentFromDB = async (id: string) => {
+const getSingleUserPackageFromDB = async (id: string) => {
   try {
-    const result = await Payment.findById(id)
-      .populate('restaurant')
-      .populate('createdBy')
-      .populate('order')
-      .populate('paymentMethod');
+    const result = await UserPackage.findById(id).populate({
+      path: 'createdBy',
+      model: 'User',
+      populate: {
+        path: 'superAdmin',
+        model: 'SuperAdmin',
+      },
+    });
 
     return result;
   } catch (error: any) {
@@ -54,9 +59,12 @@ const getSinglePaymentFromDB = async (id: string) => {
   }
 };
 
-const updatePaymentIntoDB = async (id: string, payload: Partial<TPayment>) => {
+const updateUserPackageIntoDB = async (
+  id: string,
+  payload: Partial<TUserPackage>,
+) => {
   try {
-    const result = await Payment.findByIdAndUpdate(id, payload, {
+    const result = await UserPackage.findByIdAndUpdate(id, payload, {
       new: true,
       runValidators: true,
     });
@@ -67,7 +75,7 @@ const updatePaymentIntoDB = async (id: string, payload: Partial<TPayment>) => {
   }
 };
 
-const deletePaymentFromDB = async (id: string) => {
+const deleteUserPackageFromDB = async (id: string) => {
   const session = await mongoose.startSession();
 
   //deleting associated offered courses
@@ -75,7 +83,7 @@ const deletePaymentFromDB = async (id: string) => {
   try {
     session.startTransaction();
 
-    const deletedPayment = await Payment.findByIdAndUpdate(
+    const deletedUserPackage = await UserPackage.findByIdAndUpdate(
       id,
       { status: 'deleted' },
       {
@@ -84,8 +92,11 @@ const deletePaymentFromDB = async (id: string) => {
       },
     );
 
-    if (!deletedPayment) {
-      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to delete payment!');
+    if (!deletedUserPackage) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        'Failed to delete user package!',
+      );
     }
 
     await session.commitTransaction();
@@ -99,10 +110,10 @@ const deletePaymentFromDB = async (id: string) => {
   }
 };
 
-export const PaymentService = {
-  createPaymentIntoDB,
-  getAllPaymentsFromDB,
-  getSinglePaymentFromDB,
-  updatePaymentIntoDB,
-  deletePaymentFromDB,
+export const UserPackageService = {
+  createUserPackageIntoDB,
+  getAllUserPackagesFromDB,
+  getSingleUserPackageFromDB,
+  updateUserPackageIntoDB,
+  deleteUserPackageFromDB,
 };

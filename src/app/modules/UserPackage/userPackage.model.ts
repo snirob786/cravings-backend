@@ -1,35 +1,21 @@
 import mongoose, { Schema } from 'mongoose';
-import { PaymentRegistrationStatus } from './payment.constant';
-import { TPayment } from './payment.interface';
-import AppError from '../../errors/AppError';
-import httpStatus from 'http-status';
-import { Moderator } from '../Moderator/moderator.model';
+import { UserPackageStatus } from './userPackage.constant';
+import { TUserPackage } from './userPackage.interface';
 
-const paymentSchema = new mongoose.Schema<TPayment>(
+const userPackageSchema = new mongoose.Schema<TUserPackage>(
   {
     status: {
       type: String,
-      enum: PaymentRegistrationStatus,
-      default: 'pending',
+      enum: UserPackageStatus,
+      default: 'active',
     },
-    transactionId: String,
-    referenceId: String,
-    paymentMethod: {
-      type: Schema.Types.ObjectId,
-      ref: 'PaymentMethod',
-    },
-    amount: Number,
-    paymentPhone: String,
-    paymentEmail: String,
-    order: {
-      type: Schema.Types.ObjectId,
-      ref: 'Order',
-    },
-    restaurant: {
-      type: Schema.Types.ObjectId,
-      ref: 'Restaurant',
-      required: [true, 'Restaurant is required'],
-    },
+    title: String,
+    price: Number,
+    validityDays: Number,
+    menuItemLimit: Number,
+    specialMenuLimit: Number,
+    platterLimit: Number,
+    moderatorLimit: Number,
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',
@@ -40,4 +26,7 @@ const paymentSchema = new mongoose.Schema<TPayment>(
   },
 );
 
-export const Payment = mongoose.model<TPayment>('Payment', paymentSchema);
+export const UserPackage = mongoose.model<TUserPackage>(
+  'UserPackage',
+  userPackageSchema,
+);

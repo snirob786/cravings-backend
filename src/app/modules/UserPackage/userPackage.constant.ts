@@ -1,6 +1,6 @@
-export const PaymentRegistrationStatus = ['pending', 'paid'];
+export const UserPackageStatus = ['inactive', 'active'];
 
-export const PaymentStatus = {
-  pending: 'pending',
-  paid: 'paid',
+export const UserPackageStatusVar = {
+  inactive: 'inactive',
+  active: 'active',
 } as const;

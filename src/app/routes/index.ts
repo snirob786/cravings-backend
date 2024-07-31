@@ -21,6 +21,7 @@ import { RatingRoutes } from '../modules/Rating/rating.route';
 import { DeliveriesRoutes } from '../modules/Delivery/delivery.route';
 import { ReportRoutes } from '../modules/Report/report.route';
 import { PaymentMethodRoutes } from '../modules/PaymentMethod/paymentMethod.route';
+import { UserPackageRoutes } from '../modules/UserPackage/userPackage.route';
 
 const router = Router();
 
@@ -112,6 +113,10 @@ const moduleRoutes = [
   {
     path: '/payment-methods',
     route: PaymentMethodRoutes,
+  },
+  {
+    path: '/user-packages',
+    route: UserPackageRoutes,
   },
 ];
 

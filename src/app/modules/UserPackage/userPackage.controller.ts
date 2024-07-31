@@ -2,75 +2,75 @@ import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import { PaymentService } from './payment.service';
+import { UserPackageService } from './userPackage.service';
 
-const createPayment = catchAsync(async (req: Request, res: Response) => {
+const createUserPackage = catchAsync(async (req: Request, res: Response) => {
   let newPayload = {
     ...req.body,
     createdBy: req.user._id,
   };
-  const result = await PaymentService.createPaymentIntoDB(newPayload);
+  const result = await UserPackageService.createUserPackageIntoDB(newPayload);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Payment is created successfully!',
+    message: 'User Package is created successfully!',
     data: result,
   });
 });
 
-const getAllPayments = catchAsync(async (req: Request, res: Response) => {
-  const result = await PaymentService.getAllPaymentsFromDB(req.query);
+const getAllUserPackages = catchAsync(async (req: Request, res: Response) => {
+  const result = await UserPackageService.getAllUserPackagesFromDB(req.query);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Payment is retrieved successfully !',
+    message: 'User Package is retrieved successfully !',
     data: result,
   });
 });
 
-const getSinglePayment = catchAsync(async (req: Request, res: Response) => {
+const getSingleUserPackage = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const result = await PaymentService.getSinglePaymentFromDB(id);
+  const result = await UserPackageService.getSingleUserPackageFromDB(id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Payment is retrieved successfully',
+    message: 'User Package is retrieved successfully',
     data: result,
   });
 });
 
-const updatePayment = catchAsync(async (req: Request, res: Response) => {
+const updateUserPackage = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await PaymentService.updatePaymentIntoDB(id, req.body);
+  const result = await UserPackageService.updateUserPackageIntoDB(id, req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Payment is updated successfully',
+    message: 'User Package is updated successfully',
     data: result,
   });
 });
 
-const deletePayment = catchAsync(async (req: Request, res: Response) => {
+const deleteUserPackage = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await PaymentService.deletePaymentFromDB(id);
+  const result = await UserPackageService.deleteUserPackageFromDB(id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Payment is updated successfully',
+    message: 'User Package is updated successfully',
     data: result,
   });
 });
 
-export const PaymentController = {
-  createPayment,
-  getAllPayments,
-  getSinglePayment,
-  updatePayment,
-  deletePayment,
+export const UserPackageController = {
+  createUserPackage,
+  getAllUserPackages,
+  getSingleUserPackage,
+  updateUserPackage,
+  deleteUserPackage,
 };
