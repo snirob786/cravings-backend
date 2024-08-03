@@ -41,6 +41,12 @@ const registerUser = async (
     // const { secure_url } = await sendImageToCloudinary(imageName, path);
 
     // create a user (transaction-1)
+    const alreadyExisted = await User.findOne({ email: userData.email });
+
+    if (alreadyExisted) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'This email already exists');
+    }
+
     const newUser = await User.create([userData], { session });
 
     //create a admin
