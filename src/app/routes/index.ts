@@ -51,7 +51,7 @@ const moduleRoutes = [
     route: SuperAdminRoutes,
   },
   {
-    path: '/customers',
+    path: '/normal-users',
     route: NormalUserRoutes,
   },
   {

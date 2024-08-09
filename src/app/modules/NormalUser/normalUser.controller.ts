@@ -5,23 +5,23 @@ import { NormalUserServices } from './normalUser.service';
 
 const getSingleNormalUser = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await NormalUserServices.getSingleCustomerFromDB(id);
+  const result = await NormalUserServices.getSingleNormalUserFromDB(id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Customer is retrieved succesfully',
+    message: 'User is retrieved succesfully',
     data: result,
   });
 });
 
 const getAllNormalUsers = catchAsync(async (req, res) => {
-  const result = await NormalUserServices.getAllCustomersFromDB(req.query);
+  const result = await NormalUserServices.getAllNormalUsersFromDB(req.query);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Customers are retrieved succesfully',
+    message: 'Users are retrieved succesfully',
     data: result,
   });
 });
@@ -29,24 +29,24 @@ const getAllNormalUsers = catchAsync(async (req, res) => {
 const updateNormalUser = catchAsync(async (req, res) => {
   const { id } = req.params;
   const { admin } = req.body;
-  const result = await NormalUserServices.updateCustomerIntoDB(id, admin);
+  const result = await NormalUserServices.updateNormalUserIntoDB(id, admin);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Customer is updated succesfully',
+    message: 'User is updated succesfully',
     data: result,
   });
 });
 
 const deleteNormalUser = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await NormalUserServices.deleteCustomerFromDB(id);
+  const result = await NormalUserServices.deleteNormalUserFromDB(id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Customer is deleted succesfully',
+    message: 'User is deleted succesfully',
     data: result,
   });
 });
