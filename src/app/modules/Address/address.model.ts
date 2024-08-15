@@ -18,7 +18,7 @@ const addressSchema = new mongoose.Schema<TAddress>(
     },
     street: String,
     city: {
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: 'City',
     },
     addressType: {
@@ -27,11 +27,11 @@ const addressSchema = new mongoose.Schema<TAddress>(
       required: [true, 'Address type is required'],
     },
     district: {
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: 'District',
     },
     country: {
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: 'Country',
       required: [true, 'Country is required'],
     },
