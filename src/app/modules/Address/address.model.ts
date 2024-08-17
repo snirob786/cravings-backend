@@ -1,9 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import { AddressRegistrationStatus, AddressType } from './address.constant';
 import { TAddress } from './address.interface';
-import AppError from '../../errors/AppError';
-import httpStatus from 'http-status';
-import { Moderator } from '../Moderator/moderator.model';
 
 const addressSchema = new mongoose.Schema<TAddress>(
   {

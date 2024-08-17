@@ -48,7 +48,7 @@ const userSchema = new Schema<TUser, UserModel>(
 
     user: {
       type: Schema.Types.ObjectId,
-      ref: 'Moderator',
+      ref: 'NormalUser',
     },
 
     addresses: [

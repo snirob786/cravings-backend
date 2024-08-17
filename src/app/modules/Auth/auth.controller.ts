@@ -16,8 +16,29 @@ const registerUser = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
 const loginUser = catchAsync(async (req, res) => {
   const result: any = await AuthServices.loginUser(req.body);
+  const { user, refreshToken, accessToken } = result;
+
+  res.cookie('refreshToken', refreshToken, {
+    secure: config.NODE_ENV === 'production',
+    httpOnly: true,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User login successful',
+    data: {
+      user: user,
+      token: accessToken,
+    },
+  });
+});
+
+const changeUserPackage = catchAsync(async (req, res) => {
+  const result: any = await AuthServices.changeUserPackage(req);
   const { user, refreshToken, accessToken } = result;
 
   res.cookie('refreshToken', refreshToken, {
@@ -54,5 +75,6 @@ const loginUser = catchAsync(async (req, res) => {
 export const AuthControllers = {
   registerUser,
   loginUser,
+  changeUserPackage,
   // changePassword,
 };

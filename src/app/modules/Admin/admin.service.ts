@@ -36,7 +36,7 @@ const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
       total: totalAdmin,
     };
   } catch (error: any) {
-    console.log('get all error: ', error);
+    console.error('get all error: ', error);
     throw new Error(error);
   }
 };

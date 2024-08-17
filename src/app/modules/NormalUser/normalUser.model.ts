@@ -1,4 +1,4 @@
-import { Schema, Types, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { BloodGroup, Gender } from './normalUser.constant';
 import {
   NormalUserModel,
@@ -127,7 +127,6 @@ normalUserSchema.pre('aggregate', function (next) {
 //checking if user is already exist!
 normalUserSchema.statics.isUserExists = async function (id: string) {
   const existingUser = await NormalUser.findOne({ _id: id });
-  console.log('🚀 ~ existingUser:', existingUser);
   return existingUser;
 };
 

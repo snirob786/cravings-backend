@@ -84,7 +84,7 @@ const registerUser = async (
 const loginUser = async (payload: TLoginUser) => {
   // checking if the user is exist
   const user: any = await User.isUserExistsByCustomUsername(payload.username);
-  console.log('user: ', user);
+
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
   }
@@ -123,6 +123,16 @@ const loginUser = async (payload: TLoginUser) => {
     accessToken,
     refreshToken,
   };
+};
+
+const changeUserPackage = async (payload: any) => {
+  try {
+    const user: any = await NormalUser.findById(payload?.user?.user);
+    console.log('payload?.user: ', payload?.user?.user);
+    console.log('user: ', user);
+  } catch (err: any) {
+    throw new Error(err);
+  }
 };
 
 // const changePassword = async (
@@ -206,5 +216,6 @@ const loginUser = async (payload: TLoginUser) => {
 export const AuthServices = {
   registerUser,
   loginUser,
+  changeUserPackage,
   // changePassword,
 };

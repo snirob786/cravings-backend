@@ -31,7 +31,7 @@ const getAllModeratorsFromDB = async (query: Record<string, unknown>) => {
       total: totalModerator,
     };
   } catch (error: any) {
-    console.log('get all error: ', error);
+    console.error('get all error: ', error);
     throw new Error(error);
   }
 };

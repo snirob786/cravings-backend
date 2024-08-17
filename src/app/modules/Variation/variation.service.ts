@@ -16,7 +16,6 @@ const createVariationIntoDB = async (payload: any) => {
   const result = await Variation.create(payload);
 
   const getCategoryInfo = await Category.findById(payload.category);
-  console.log('getCategoryInfo: ', getCategoryInfo);
   const newCategorySubCategory: any = getCategoryInfo?.subCategory || [];
   newCategorySubCategory.push(result._id);
 
@@ -36,8 +35,6 @@ const createVariationIntoDB = async (payload: any) => {
       subCategory: newCategorySubCategory,
     },
   );
-
-  console.log('updateCategory: ', updateCategory);
 
   return result;
 };

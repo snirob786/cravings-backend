@@ -5,8 +5,7 @@ import sendResponse from '../../utils/sendResponse';
 import { RestaurantService } from './restaurant.service';
 
 const createRestaurant = catchAsync(async (req: Request, res: Response) => {
-  console.log('restaurant req in controller: ', req.user);
-  let newPayload = {
+  const newPayload = {
     ...req.body,
     createdBy: req.user._id,
     owner: req.user.admin,

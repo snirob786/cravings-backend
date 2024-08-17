@@ -12,8 +12,6 @@ import { SubCategory } from '../SubCategory/subCategory.model';
 import { Category } from '../Category/category.model';
 
 const createMenuItemIntoDB = async (payload: any) => {
-  console.log('payload: ', payload);
-
   const userInfo = await Admin.isUserExists(payload.createdBy);
 
   const result = await MenuItem.create(payload);
@@ -30,12 +28,9 @@ const createMenuItemIntoDB = async (payload: any) => {
       },
     );
   } else if (payload.category) {
-    console.log('test: ');
     const getCategory = await Category.findById(payload.category);
-    console.log('getCategory: ', getCategory);
     const newCategoryMenuItems: any = getCategory?.menuItem || [];
     newCategoryMenuItems.push(result._id);
-    console.log('newCategoryMenuItems: ', newCategoryMenuItems);
     const updateCategory = await Category.updateOne(
       {
         _id: payload.category,
@@ -44,7 +39,6 @@ const createMenuItemIntoDB = async (payload: any) => {
         menuItem: newCategoryMenuItems,
       },
     );
-    console.log('updateCategory: ', updateCategory);
   }
   // const updateAdmin = await Admin.updateOne(
   //   {
