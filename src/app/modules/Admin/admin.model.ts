@@ -29,9 +29,9 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
       unique: true,
       ref: 'User',
     },
-    designation: {
+    role: {
       type: String,
-      required: [true, 'Designation is required'],
+      required: [true, 'Role is required'],
     },
     name: {
       type: userNameSchema,
@@ -51,7 +51,7 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
       required: [true, 'Email is required'],
       unique: true,
     },
-    contactNo: { type: String, required: [true, 'Contact number is required'] },
+    contactNo: { type: String },
     bloodGroup: {
       type: String,
       enum: {
@@ -61,12 +61,10 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
     },
     presentAddress: {
       type: String,
-      required: [true, 'Present address is required'],
       ref: 'Address',
     },
     permanentAddress: {
       type: String,
-      required: [true, 'Permanent address is required'],
       ref: 'Address',
     },
     profileImg: { type: String },

@@ -19,12 +19,12 @@ router.post(
   AuthControllers.loginUser,
 );
 
-router.post(
-  '/change-to-admin',
-  auth(USER_ROLE.user),
-  // validateRequest(AuthValidation.loginValidationSchema),
-  AuthControllers.changeUserPackage,
-);
+// router.post(
+//   '/change-to-admin',
+//   auth(USER_ROLE.user),
+//   // validateRequest(AuthValidation.loginValidationSchema),
+//   AuthControllers.changeUserPackage,
+// );
 
 // router.post(
 //   '/change-password',

@@ -21,7 +21,7 @@ export type TUserName = {
 export type TAdmin = {
   // id: string;
   user: Types.ObjectId;
-  designation: string;
+  role: string;
   name: TUserName;
   gender: TGender;
   dateOfBirth?: Date;

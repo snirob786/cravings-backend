@@ -102,10 +102,21 @@ const changeStatus = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const changeUserToAdmin = catchAsync(async (req, res) => {
+  const id = req.params.id;
+  const result = await UserServices.changeUserToAdmin(id, req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Status is updated succesfully',
+    data: result,
+  });
+});
 export const UserControllers = {
   // createDeliveryMan,
   // createModerator,
   // createNormalUser,
+  changeUserToAdmin,
   createSuperAdmin,
   getSingleUser,
   changeStatus,

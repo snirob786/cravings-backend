@@ -13,6 +13,7 @@ export interface TUser {
   moderator: Types.ObjectId;
   user: Types.ObjectId;
   deliveryMan: Types.ObjectId;
+  userPackage: Types.ObjectId;
   addresses: [
     {
       type: Types.ObjectId;

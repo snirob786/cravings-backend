@@ -84,4 +84,10 @@ router.post(
   UserControllers.changeStatus,
 );
 
+router.post(
+  '/change-to-admin/:id',
+  auth(USER_ROLE.user),
+  UserControllers.changeUserToAdmin,
+);
+
 export const UserRoutes = router;

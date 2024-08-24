@@ -311,12 +311,59 @@ const changeStatus = async (id: string, payload: { status: string }) => {
   });
   return result;
 };
+const changeUserToAdmin = async (id: string, payload: any) => {
+  try {
+    const findUser: any = await User.findById(id).populate('user');
+    if (!findUser) {
+      throw new Error('This user is not exist.');
+    }
+    const findAdmin = await Admin.findOne({ email: findUser?.email });
+    let adminId = null;
+    if (!findAdmin) {
+      const adminParams: any = findUser?.user;
+
+      const adminParamsNew = {
+        role: 'Admin',
+        email: adminParams?.email,
+        user: adminParams?.user,
+        gender: adminParams?.gender,
+        name: adminParams?.name,
+        dateOfBirth: adminParams?.dateOfBirth,
+        contactNo: adminParams?.contactNo,
+        bloodGroup: adminParams?.bloodGroup,
+        profileImg: adminParams?.profileImg,
+        emergencyContactNo: adminParams?.emergencyContactNo,
+        presentAddress: adminParams?.presentAddress,
+        permanentAddress: adminParams?.permanentAddress,
+        address: adminParams?.address,
+        status: 'active',
+      };
+
+      const createAdmin = await Admin.create(adminParamsNew);
+      adminId = createAdmin?._id;
+    } else {
+      adminId = findAdmin?._id;
+    }
+    const newUserParam = {
+      ...payload,
+      admin: adminId,
+      role: 'admin',
+    };
+    const result = await User.findByIdAndUpdate(findUser?._id, newUserParam, {
+      new: true,
+    });
+    return result;
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
 
 export const UserServices = {
   createDeliveryManIntoDB,
   createModeratorIntoDB,
   createNormalUserIntoDB,
   createSuperAdminIntoDB,
+  changeUserToAdmin,
   getSingleUser,
   changeStatus,
 };

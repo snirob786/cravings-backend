@@ -61,6 +61,10 @@ const userSchema = new Schema<TUser, UserModel>(
       type: Schema.Types.ObjectId,
       ref: 'DeliveryMan',
     },
+    userPackage: {
+      type: Schema.Types.ObjectId,
+      ref: 'User Package',
+    },
     order: [
       {
         type: Schema.Types.ObjectId,
