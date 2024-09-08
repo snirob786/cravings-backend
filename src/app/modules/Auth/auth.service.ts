@@ -117,12 +117,17 @@ const loginUser = async (payload: TLoginUser) => {
     config.jwt_refresh_secret as string,
     config.jwt_refresh_expires_in as string,
   );
-
-  return {
-    user: { ...jwtPayload, username: payload.username },
+  const returnPayload = {
+    user: {
+      ...jwtPayload,
+      username: payload.username,
+      userPackage: user.userPackage,
+    },
     accessToken,
     refreshToken,
   };
+
+  return returnPayload;
 };
 
 const changeUserPackage = async (payload: any) => {

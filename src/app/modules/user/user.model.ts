@@ -63,7 +63,7 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     userPackage: {
       type: Schema.Types.ObjectId,
-      ref: 'User Package',
+      ref: 'UserPackage',
     },
     order: [
       {
@@ -114,7 +114,7 @@ userSchema.statics.isUserExistsByCustomUsername = async function (
 ) {
   return await User.findOne({
     $or: [{ username }, { email: username }],
-  }).select('+password');
+  }).select('+password').populate("userPackage").populate("user").populate("admin").populate("order").populate("deliveryMan");
 };
 
 userSchema.statics.isPasswordMatched = async function (

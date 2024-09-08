@@ -35,7 +35,8 @@ const getAllNormalUsersFromDB = async (query: Record<string, unknown>) => {
 const getSingleNormalUserFromDB = async (id: string) => {
   const result = await NormalUser.findById(id)
     .populate('restaurant')
-    .populate('user');
+    .populate('user')
+    .populate('user')
   return result;
 };
 

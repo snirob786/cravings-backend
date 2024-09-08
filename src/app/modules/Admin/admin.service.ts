@@ -44,6 +44,7 @@ const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
 const getSingleAdminFromDB = async (id: string) => {
   const result = await Admin.findById(id)
     .populate('restaurant')
+    .populate('user')
     .populate('user');
   return result;
 };
