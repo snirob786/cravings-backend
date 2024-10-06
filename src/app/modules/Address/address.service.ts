@@ -22,10 +22,7 @@ const getAllAddressesFromDB = async (query: Record<string, unknown>) => {
   try {
     const batchQuery = new QueryBuilder(
       Address.find()
-        .populate('restaurant')
-        .populate('city')
-        .populate('district')
-        .populate('country')
+        // .populate('restaurant')
         .populate('createdBy'),
       query,
     )
@@ -37,6 +34,7 @@ const getAllAddressesFromDB = async (query: Record<string, unknown>) => {
     const result = await batchQuery.modelQuery;
     return result;
   } catch (err: any) {
+    console.log('console error address: ', err);
     throw new Error(err);
   }
 };
@@ -44,7 +42,7 @@ const getAllAddressesFromDB = async (query: Record<string, unknown>) => {
 const getSingleAddressFromDB = async (id: string) => {
   try {
     const result = await Address.findById(id)
-      .populate('restaurant')
+      // .populate('restaurant')
       .populate('city')
       .populate('district')
       .populate('country')

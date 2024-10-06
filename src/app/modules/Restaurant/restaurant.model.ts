@@ -1,9 +1,6 @@
-import mongoose, { Schema, Types } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { RestaurantRegistrationStatus } from './restaurant.constant';
 import { TRestaurant } from './restaurant.interface';
-import AppError from '../../errors/AppError';
-import httpStatus from 'http-status';
-import { Moderator } from '../Moderator/moderator.model';
 
 const restaurantSchema = new mongoose.Schema<TRestaurant>(
   {
@@ -32,7 +29,7 @@ const restaurantSchema = new mongoose.Schema<TRestaurant>(
     pickUpAddress: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Address,',
+        ref: 'Address',
       },
     ],
     order: [

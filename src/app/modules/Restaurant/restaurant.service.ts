@@ -30,7 +30,7 @@ const getAllRestaurantesFromDB = async (query: Record<string, unknown>) => {
     Restaurant.find()
       .populate('createdBy')
       .populate('owner')
-      .populate('adderss')
+      .populate('address')
       .populate('pickUpAddress')
       .populate('order')
       .populate('moderator'),
