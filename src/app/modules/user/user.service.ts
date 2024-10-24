@@ -272,6 +272,7 @@ const createSuperAdminIntoDB = async (
 
     // create a admin (transaction-2)
     const newSuperAdmin: any = await SuperAdmin.create([payload], { session });
+    console.log('🚀 ~ newSuperAdmin:', newSuperAdmin);
 
     if (!newSuperAdmin.length) {
       throw new AppError(

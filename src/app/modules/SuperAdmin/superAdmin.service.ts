@@ -27,10 +27,12 @@ const getAllSuperAdminsFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleSuperAdminFromDB = async (id: string) => {
+  console.log('🚀 ~ getSingleSuperAdminFromDB ~ id:', id);
   const result = await SuperAdmin.findById(id)
     .populate('user')
     .populate('presentAddress')
     .populate('permanentAddress');
+  console.log('🚀 ~ getSingleSuperAdminFromDB ~ result:', result);
   return result;
 };
 
